@@ -1,0 +1,996 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="杨宇豪的个人博客">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="杨宇豪的个人博客">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/"/>
+
+  <title> 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/20/node-中的一些坑/" itemprop="url">
+                  node 中的一些坑
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-20T21:01:27+08:00" content="2016-09-20">
+              2016-09-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文会持续更新……</p>
+<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><p>fs中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含<code>../</code>、<code>./</code>、<code>/</code>的相对路径）。</p>
+<h4 id="fs-mkdir-mkdirSync"><a href="#fs-mkdir-mkdirSync" class="headerlink" title="fs.mkdir/mkdirSync"></a>fs.mkdir/mkdirSync</h4><p>API<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.mkdir(path, callback)</div></pre></td></tr></table></figure></p>
+<p>创建文件夹操作，支持文件夹嵌套，例如<code>fs.mkdir(&#39;./a/b/c&#39;)</code>,回调函数中的参数为<code>Error</code>信息，只有发生错误的时候才会存在，创建成功则为<code>null</code>。</p>
+<p><code>mkdir</code>操作的路径如果有文件夹嵌套，则当上级路径不存在时，不能直接创建。例如当前文件夹下没有<code>a</code>文件夹，则<code>fs.mkdir(&#39;./a/b&#39;)</code>不能直接创建<code>a</code>和<code>a/b</code>文件夹。</p>
+<p>为了减少代码的重复量，可使用下面的函数来对<code>mkdir</code>操作进行封装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">let path = require(&apos;path&apos;),</div><div class="line">    fs = require(&apos;fs&apos;);</div><div class="line">function mkdir(p,fn)&#123;</div><div class="line">    fs.exists(p, function (flag) &#123; // 判断当前路径下的文件夹是否已经存在</div><div class="line">        if(flag)&#123; // 如果当前文件夹已经存在则执行回调函数</div><div class="line">            return fn();</div><div class="line">        &#125;</div><div class="line">        // 如果当前文件夹不存在，则将当前文件夹的上级目录作为新的参数p，创建当前文件夹的操作放入回调函数，递归调用mkdir函数</div><div class="line">        mkdir(path.dirname(p), function () &#123;</div><div class="line">            fs.mkdir(p,fn);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里用到了<code>path</code>模块的<code>dirname</code>方法，这个方法的作用是获取一个路径的上级路径。</p>
+<h4 id="fs-readFile-readFileSync"><a href="#fs-readFile-readFileSync" class="headerlink" title="fs.readFile/readFileSync"></a>fs.readFile/readFileSync</h4><p>读取文件操作，在使用同步方法<code>readFileSync</code>时函数直接返回读到的数据，如果发生错误则返回错误的信息。</p>
+<p>但是异步方法<code>readFile</code>在<code>callback</code>中的参数却是<code>error</code>和<code>data</code>，即不管是否成功第一个参数都是<code>error</code>，第二个参数才是读到的数据。</p>
+<p>在<code>node</code>中应尽量用<code>stream</code>来代替文件的直接读写操作。</p>
+<h2 id="请求与响应"><a href="#请求与响应" class="headerlink" title="请求与响应"></a>请求与响应</h2><h3 id="跨域请求"><a href="#跨域请求" class="headerlink" title="跨域请求"></a>跨域请求</h3><h4 id="cors"><a href="#cors" class="headerlink" title="cors"></a>cors</h4><p>如果需要采用<code>cors</code>来支持跨域请求，则需要对请求头进行如下设置（完整版）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">res.writeHead(200, &#123;</div><div class="line">    &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,</div><div class="line">    &quot;Access-Control-Allow-Methods&quot;: &quot;GET, POST, PUT, DELETE, OPTIONS&quot;,</div><div class="line">    &quot;Access-Control-Allow-Headers&quot;: &quot;Content-Type, accept&quot;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>另外，跨域时尽量对请求方法和请求路径都进行验证（RESTful），因为某些客户端框架（ionic）在发送跨域请求时，会先发送一个<code>option</code>方法的请求来尝试跨域请求是否成功，在成功之后才会发送原本的请求。</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>一般在<code>node</code>中设置<code>cookies</code>都会使用基于<code>express</code>的第三方包<code>cookie-parser</code>。不使用第三方包的原生写法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">res.setHeader(&quot;Set-Cookie&quot;, [...cookies])</div></pre></td></tr></table></figure></p>
+<p>其中<code>cookies</code>的格式为<code>key=value; option</code>，注意<code>;</code>后的空格。</p>
+<p><code>option</code>的参数中<code>max-age=time</code>表示<code>cookie</code>的过期时间，其中<code>time</code>的为<code>number</code>，单位是秒。</p>
+<p>获取客户端传递的<code>cookies</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.headers.cookie</div></pre></td></tr></table></figure></p>
+<p>如果使用<code>express</code>和<code>cookie-parser</code>，则关于<code>cookie</code>的方法都会被集成在<code>request</code>和<code>response</code>上，设置<code>cookie</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">res.cookie(key, value, option)</div></pre></td></tr></table></figure></p>
+<p>注意这里的<code>option</code>中的<code>max-age</code>单位变为了毫秒，其他则没有变化。</p>
+<p>获取客户端传递的<code>cookies</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.cookies</div></pre></td></tr></table></figure></p>
+<p>获取的<code>cookies</code>为对象形式。</p>
+<p>IDE没有提示功能或者提示功能不全的朋友请自觉区分上文中的<code>cookie</code>和<code>cookies</code>并背诵熟练 :)。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/17/Angular依赖注入原理/" itemprop="url">
+                  Angular 依赖注入原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-17T19:26:39+08:00" content="2016-09-17">
+              2016-09-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>依赖注入的机制是Angular管理代码依赖关系的重要手段。</p>
+<p>一般来说，一个函数要想获取它的依赖，有三种方式：</p>
+<ol>
+<li>在函数内部通过new来创建依赖；</li>
+<li>通过全局变量查找依赖；</li>
+<li>在依赖被需要时导入；</li>
+</ol>
+<p>很显然，前两种方式都有一定程度的不足之处，他们都需要将依赖提前编码，使得对依赖进行动态修改变得相当麻烦。而第三种方式无疑是我们理想的方式。</p>
+<p>Angular中实现依赖注入的方法很简单，就是在每个模块上使用一个数组<code>providers</code>将创建服务的构造函数保存，同时在<code>injector</code>上用一个数组<code>providerCache</code>将实例化后的服务缓存，调用服务时先检查是否有缓存，以此来保证服务为单例模式。</p>
+<h2 id="Angular中的依赖注入"><a href="#Angular中的依赖注入" class="headerlink" title="Angular中的依赖注入"></a>Angular中的依赖注入</h2><p>Angular中使用注射器来实现依赖注入，在Angular中，直接通过<code>angular.injector()</code>便可获得一个<code>injector</code>实例，将其打印可以发现<code>injector</code>带有5个方法：</p>
+<ul>
+<li>annotate</li>
+<li>get</li>
+<li>has</li>
+<li>instantiate</li>
+<li>invoke</li>
+</ul>
+<p>下面我们来一一讲解这些方法的作用：</p>
+<ol>
+<li><code>annotate</code>的参数为一个函数，<code>annotate</code>不会运行这个函数，只会将这个函数中的参数名集成为一个数组并返回。这个方法主要用来对函数进行预解析，获取函数内部需要的服务名称。</li>
+<li><code>get</code>的参数为一个服务名，返回一个服务实例。</li>
+<li><code>has</code>查看某个服务的构造函数是否存在。</li>
+<li><code>invoke</code>注入服务，它是对上面三个函数的封装。</li>
+<li><code>instantiate</code>将一个服务实例化。主要在<code>factory</code>定义服务时使用。</li>
+</ol>
+<p>为了更好的理解这些方法，我们一边模拟这些方法一边讲解其原理。</p>
+<h2 id="provider"><a href="#provider" class="headerlink" title="provider"></a>provider</h2><p>我们先模拟一个provider来创建服务，服务和<code>injector</code>都是基于模块的，因此需要一个模块构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function Module()&#123;&#125;</div><div class="line"></div><div class="line">Module.providers = []; // 存储服务构造函数</div><div class="line">Module.providerCache = []; // 缓存服务实例</div><div class="line"></div><div class="line">Module.provider = function (serviceName, service) &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Module.injector = function () &#123;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在此基础上模拟provider<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Module.prototype.provider = function (serviceName, constructor) &#123;</div><div class="line">    this.providers[serviceName] = constructor; // 每次创建服务都将构造函数保存在providers中</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="annotate"><a href="#annotate" class="headerlink" title="annotate"></a>annotate</h2><p>其原理为将传入的函数转换为字符串后通过正则来解析，为简便，本文只考虑通过<code>function</code>定义的匿名函数的情况，模拟代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">injector.annotate = (fn)=&gt; &#123;</div><div class="line">    return  fn.toString().match(/function\s+\((.*)\)/)[1].replace(/\s+/g,&apos;&apos;).split(&apos;,&apos;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="has"><a href="#has" class="headerlink" title="has"></a>has</h2><p><code>has</code>用来查询服务的构造函数是否存在，再服务实例化时需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">injector.has = (serviceName)=&gt; &#123;</div><div class="line">    return this.providers[serviceName] ? true : false</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="get"><a href="#get" class="headerlink" title="get"></a>get</h2><p><code>get</code>会先遍历注射器的<code>providerCache</code>，如果没有这一服务的实例化则尝试将其创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">injector.get = (serviceName)=&gt; &#123;</div><div class="line">    let service = this.providerCache[serviceName];</div><div class="line">    if (!service) &#123; //如果没有这个服务，尝试创建这个服务</div><div class="line">        if (!injector.has(serviceName)) &#123;</div><div class="line">            throw new Error(&quot;No such service &quot; + serviceName);</div><div class="line">        &#125;</div><div class="line">        let instant = new this.providers[serviceName];</div><div class="line">        service = instant.$get();</div><div class="line">        this.providerCache[serviceName] = service;</div><div class="line">    &#125;</div><div class="line">    return service;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="invoke"><a href="#invoke" class="headerlink" title="invoke"></a>invoke</h2><p><code>invoke</code>先调用<code>annotate</code>来检测需要的服务的名称，然后用<code>get</code>方法一次获取服务，最后执行函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">injector.invoke = function (fn, thisObj) &#123;</div><div class="line">    let args = injector.annotate(fn), // 获取需要的服务名称</div><div class="line">        arr = []; // 用来存放所有的服务实例</div><div class="line">    if (args[0] != &apos;&apos;) &#123;</div><div class="line">        for (var i = 0; i &lt; args.length; i++) &#123;</div><div class="line">            arr.push(this.get(args[i]));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    fn.apply(thisObj, arr);// 调用这个函数，将函数中this改为invoke传入的参数thisObj，并把服务实例依次传入</div><div class="line">    return thisObj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>Angular中需要依赖注入的函数都会自动执行invoke，这就是Angular依赖注入的原理。</p>
+<p>最后我们验证一下这些模拟的代码是否实现了期望的功能。引入以上代码后写入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Module.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        console.log(&quot;Create service&quot;); // 不管注入几次，服务只会实例化一次，因此&quot;Create service&quot;只会输出一次</div><div class="line">        return &#123;</div><div class="line">            name: &quot;yyh&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">let myModule = new Module();</div><div class="line"></div><div class="line">Module.injector().invoke(function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出&quot;yyh&quot;</div><div class="line">    myService.address = &quot;北京&quot;;</div><div class="line">&#125;, myModule);</div><div class="line"></div><div class="line">Module.injector().invoke(function (myService) &#123;</div><div class="line">    console.log(myService.address); // 输出&quot;北京&quot;</div><div class="line">&#125;,myModule);</div></pre></td></tr></table></figure></p>
+<p>输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Create service</div><div class="line">yyh</div><div class="line">北京</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/15/Angular中的自定义服务/" itemprop="url">
+                  Angular 自定义服务
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-15T15:18:38+08:00" content="2016-09-15">
+              2016-09-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>Angular services are singletons objects or functions that carry out specific tasks common to web apps.</p>
+</blockquote>
+<p>这是Angular中对服务的定义，它是一个单例对象或函数，为web app提供特定的功能。</p>
+<p>Angular中提供的服务都是以“$”开头，通过Angular的依赖注入机制可将服务注入控制器中。除此以外，我们还可以通过Angular提供的API来自定义服务。</p>
+<h2 id="自定义服务"><a href="#自定义服务" class="headerlink" title="自定义服务"></a>自定义服务</h2><p>Angular中提供的用于定义服务的服务为<code>$provide</code>（即<code>$provide</code>本身也是一个服务），<code>$provide</code>上有6个方法</p>
+<ul>
+<li>provider</li>
+<li>factory</li>
+<li>service</li>
+<li>value</li>
+<li>constant</li>
+<li>decorator</li>
+</ul>
+<p>前五个用来定义服务，最后一个用来装饰服务。</p>
+<h3 id="provider"><a href="#provider" class="headerlink" title="provider"></a>provider</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">provider(serviceName, constructor)</div></pre></td></tr></table></figure>
+<p><code>provider</code>可以接收两个参数<code>serviceName</code>和<code>constructor_</code>，顾名思义，<code>serviceName</code>就是自定义服务的名称，<code>constructor</code>则是Angular中服务的构造函数。<code>provider</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.config(function ($provide) &#123;</div><div class="line">    $provide.provider(&quot;myService&quot;, function () &#123;</div><div class="line">        this.$get = function () &#123;</div><div class="line">            return&#123;</div><div class="line">                name: &quot;yyh&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>在Angular的依赖注入机制中会用<code>invoke</code>将<code>provider_</code>实例化，在控制器中实际获取的服务为<code>provider_</code>中<code>$get</code>返回的内容。</p>
+<p>Angular为$provide的6个方法提供了简便的写法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        return &#123;</div><div class="line">            name: yyh</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>效果与在<code>config</code>中定义服务相同，其他方法同理，下文将使用这种简便写法。</p>
+<h4 id="配置provider"><a href="#配置provider" class="headerlink" title="配置provider"></a>配置provider</h4><p>Angular提供的服务是可配置的，但只有通过<code>provider</code>方式设置的服务才能实现配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.name = &quot;yyh&quot;;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        return &#123;</div><div class="line">            name: this.name // 此时name为yyh</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">// 配置myService中的name，注意在myService后添加Provider</div><div class="line">app.config(function (myServiceProvider) &#123;</div><div class="line">    myServiceProvider.name = &quot;yyh1&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出yyh1</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="factory"><a href="#factory" class="headerlink" title="factory"></a>factory</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">factory(serviceName, factoryFn, enforce)</div></pre></td></tr></table></figure>
+<p><code>factory</code>可以接受三个参数，<code>serviceName</code>为服务名，<code>enforce</code>为强制返回值，一般不使用。<code>factory</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.factory(&quot;myService&quot;, function () &#123;</div><div class="line">    return&#123;</div><div class="line">        name: &quot;yyh&quot;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><code>factory</code>中省去了为<code>$get</code>赋值的过程，其实在<code>factory</code>内部进行了类似的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function factory(serviceName, factoryFn)&#123;</div><div class="line">    return provider(serviceName, &#123;</div><div class="line">        $get: factoryFn</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>即<code>factory</code>为<code>provider</code>的封装。</p>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service(serviceName, constructor)</div></pre></td></tr></table></figure>
+<p><code>service</code>可以接受两个参数，其用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.service(&quot;myService&quot;, function () &#123;</div><div class="line">    this.name = &quot;yyh&quot;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>即在<code>constructor</code>中直接通过<code>this</code>来设置服务的内容，相比<code>factory</code>又更简洁了一些，其实其内部调用了<code>factory</code>，通过一个名为<code>instantiate</code>的函数将<code>constructor</code>的内容实例化后传入到<code>factory</code>中。其内部原理类似于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function service(servicName, constructor)&#123;</div><div class="line">    return factory(serviceName, function()&#123;</div><div class="line">        return instantiate(constructor) // 将constructor实例化</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="value"><a href="#value" class="headerlink" title="value"></a>value</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">value(serviceName, val)</div></pre></td></tr></table></figure>
+<p><code>value</code>接受两个参数，服务名和服务内容。其使用方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.value(&quot;myService&quot;, &#123;</div><div class="line">    name: &quot;yyh&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>即<code>val</code>的内容就是服务的内容，这种写法最为简洁，原理也很简单。</p>
+<p><code>value</code>的内部同样调用了<code>factory</code>，其内部进行的操作类似于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function value(serviceName, val)&#123;</div><div class="line">    return factory(serviceName, function()&#123;</div><div class="line">        return val;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意：以上对于value、service、factory原理解释的代码并非Angular源码，只是作者为便于说明而添加的。</p>
+<h3 id="constant"><a href="#constant" class="headerlink" title="constant"></a>constant</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">constant(name, value)</div></pre></td></tr></table></figure>
+<p><code>constant</code>的使用方法和<code>value</code>类似，这里附上其源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function constant(name, value) &#123;</div><div class="line">    assertNotHasOwnProperty(name, &apos;constant&apos;);</div><div class="line">    providerCache[name] = value; // 服务缓存，所有服务都是从这里获取</div><div class="line">    instanceCache[name] = value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码中的注释为本文作者添加。</p>
+<p>可以看到，<code>constant</code>直接将<code>value</code>中的内容放入到服务缓存中，这种做法导致的后果就是<code>constant</code>中的内容不可被修改。<code>constant</code>也是定义服务的方法中唯一没有调用<code>provider</code>的。</p>
+<h3 id="decorator"><a href="#decorator" class="headerlink" title="decorator"></a>decorator</h3><p>翻译为中文就是修饰，用于动态的扩展服务，扩展的服务只在当前模块内起作用，而不会影响到其他模块。<code>decorator</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.value(&quot;myService&quot;, &#123;</div><div class="line">    name: &quot;yyh&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.config(function ($provide) &#123;</div><div class="line">    $provide.decorator(&quot;myService&quot;, function ($delegate) &#123;</div><div class="line">        // $delegate为原服务</div><div class="line">        $delegate.age = &quot;20&quot;;</div><div class="line">        return $delegate; // 返回装饰后的服务</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">    console.log(myService.age); // 输出 20</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/Angular数据双向绑定原理/" itemprop="url">
+                  Angular 数据双向绑定原理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-10T21:05:06+08:00" content="2016-09-10">
+              2016-09-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>作为一个MVVM框架，数据双向绑定可以说是Angular最核心的功能之一，本文就以JavaScript语言来讲解其背后的原理。</p>
+<p>在Angular中添加这样一段html代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;input type=&quot;text&quot; ng-model=&quot;input&quot;&gt;</div><div class="line">    &#123;&#123;input&#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>此时input输入框的后面便会实时显示用户输入的内容，那么它是怎样实现的呢？要明白这背后的原理，就需要先学习两个函数$scope.$watch和$scope.$apply。</p>
+<h2 id="scope-watch"><a href="#scope-watch" class="headerlink" title="$scope.$watch"></a>$scope.$watch</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$scope.$watch(exp, listener, objectEquality)</div></pre></td></tr></table></figure>
+<p>$scope.$watch用于监听一个当前作用域变量的变化，第一个参数监听变量的表达式（exp），第二个参数为变量变化时的回调函数（listener），第三个参数表示监听的是一个变量还是对象。当监听的是一个变量时，可以忽略第三个参数。例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$scope.name = &quot;yyh&quot;;</div><div class="line"></div><div class="line">$scope.$watch(&quot;name&quot;, function (newValue, oldValue) &#123;</div><div class="line">    console.log(&quot;$scope.name was changed&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>listener中的newValue为当前变量的最新值，oldValue则为更改前的值。</p>
+<p>其中第一个参数也能以函数的形式传递，只要在函数中返回需要监听的变量即可，如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$scope.$watch( function()&#123;</div><div class="line">    return $scope.name;</div><div class="line">&#125;, function (newValue, oldValue) &#123;</div><div class="line">    console.log(&quot;$scope.name was changed&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这种写法的效率较高，因为如果第一个参数为字符串，Angular也会将其替换为函数。</p>
+<p>在Angular的$scope中创建变量时，Angular会自动执行$watch来监听这一变量。</p>
+<p>调用$scope.$watch后，Angular会将当前变量注册到监听列表$scope.$$watchers中。</p>
+<h3 id="scope-watchers"><a href="#scope-watchers" class="headerlink" title="$scope.$$watchers"></a>$scope.$$watchers</h3><p>$scope中的$$watchers数组保存着当前注册监听的变量，其结构为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$$watchers = [</div><div class="line">    &#123;</div><div class="line">        eq: false, // 表明监听的变量是否为一个对象</div><div class="line">        fn: function( newValue, oldValue ) &#123;&#125;, // 监听函数(listener)</div><div class="line">        last: &apos;yyh&apos;, // 变量最新值</div><div class="line">        exp: function()&#123;&#125;, // 监听变量的表达式函数(exp)</div><div class="line">        get: function()&#123;&#125; // Angular编译后的exp函数</div><div class="line">    &#125;</div><div class="line">];</div></pre></td></tr></table></figure></p>
+<h2 id="scope-apply"><a href="#scope-apply" class="headerlink" title="$scope.$apply"></a>$scope.$apply</h2><p>在讲解$scope.$apply之前，需要先了解$rootScope.$digest</p>
+<h3 id="rootScope-digest"><a href="#rootScope-digest" class="headerlink" title="$rootScope.$digest"></a>$rootScope.$digest</h3><p>$rootScope.$digest即脏值检查函数，它会遍历所有$scope中的$$watchers数组，将每一个watcher（$$watchers的每一项）的last属性与当前变量的最新值进行比较，如果在任意一个watcher中发现两者不相等（检查结果为dirty），则执行watcher中的fn函数，并在脏值检查完毕后刷新视图。</p>
+<p>为了防止watcher的fn函数中再次更改变量，如果检测到有值发生了改变，则脏值检查会再执行一次。</p>
+<p>同时为了防止watcher的fn函数中无限次更改变量，脏值检查最多只会执行十次，且如果此时执行结果仍为dirty，则throw一个error。</p>
+<h3 id="scope-apply-1"><a href="#scope-apply-1" class="headerlink" title="$scope.$apply"></a>$scope.$apply</h3><p>$scope.$apply的作用为刷新视图，$scope.$apply可以传一个函数作为其参数，$scope.$apply会先执行这个函数，然后再去执行$rootScope.$digest。</p>
+<p>Angular的指令、控制器等运行时都会在结尾时执行$scope.$apply，而JavaScript原生的函数则没有这一功能，如setTimeout、setInterval等，例如在JavaScript中写入如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.controller(&quot;first&quot;, function ($scope) &#123;</div><div class="line">    $scope.name = &quot;yyh&quot;;</div><div class="line">    window.setTimeout(function () &#123;</div><div class="line">        $scope.name = &quot;yyh1&quot;;</div><div class="line">        console.log($scope.$$watchers[0])</div><div class="line">    &#125;,2000)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>在html中写入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div ng-controller=&quot;first&quot;&gt;</div><div class="line">    &#123;&#123;name&#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>可以看到，2秒后视图并没有发生变化，此时控制台输出的watcher中的last也没有更新，此时如果将JavaScript代码 更改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">app.controller(&quot;first&quot;, function ($scope) &#123;</div><div class="line">    $scope.name = &quot;yyh&quot;;</div><div class="line">    window.setTimeout(function () &#123;</div><div class="line">        $scope.name = &quot;yyh1&quot;;</div><div class="line">        console.log($scope.$$watchers[0]);</div><div class="line">        $scope.$apply();// 执行$apply</div><div class="line">    &#125;,2000)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>则2秒后视图便会发生变化，这就是模型绑定视图的原理。</p>
+<p>同时，为了能够实现模型绑定视图，Angular为以下事件都绑定了$scope$apply方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste</div></pre></td></tr></table></figure></p>
+<p>即用户触发以上事件时，Angular自动执行$scope$apply，这就实现了视图绑定模型。</p>
+<h2 id="模拟双向数据绑定"><a href="#模拟双向数据绑定" class="headerlink" title="模拟双向数据绑定"></a>模拟双向数据绑定</h2><p>为了更深入地理解Angular的双向数据绑定的原理，我们用原生JavaScript来自己实现一个简版的数据双向绑定。</p>
+<p>首先是scope的构造函数，每个scope都有自己私有的$$watchers和公有的$watch、$apply、$digest方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function Scope()&#123;</div><div class="line">    this.$$watchers = [];</div><div class="line">&#125;</div><div class="line"></div><div class="line">Scope.prototype.$watch = function () &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Scope.prototype.$apply = function () &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Scope.prototype.$digest = function () &#123;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>然后分别实现这三个方法</p>
+<h3 id="模拟-watch"><a href="#模拟-watch" class="headerlink" title="模拟$watch"></a>模拟$watch</h3><p>$watch的作用为注册监听变量，即将参数封装为一个对象后push到$$watchers中，本文为了简便只为watcher添加fn、exp、last属性，且默认exp为函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$watch = function (exp, listener) &#123;</div><div class="line">    let watcher = &#123;</div><div class="line">        exp: exp,</div><div class="line">        fn: listener,</div><div class="line">        last: exp() // 获取变量最新值</div><div class="line">    &#125;;</div><div class="line">    this.$$watchers.push(watcher);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="模拟-digest"><a href="#模拟-digest" class="headerlink" title="模拟$digest"></a>模拟$digest</h3><p>$digest为脏值检查，首先将单次脏值检查的过程封装在$digestOne中，其返回值dirty为true则表示变量发生了改变</p>
+<p>$digestOne<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$digestOne = function () &#123;</div><div class="line">    let dirty = false;</div><div class="line">    this.$$watchers.forEach(function (watcher) &#123; // 遍历所有watcher</div><div class="line">        let newValue = watcher.exp(),</div><div class="line">            oldValue = watcher.last;</div><div class="line">        if (newValue !== oldValue) &#123; // 如果监听到值发生改变，则将dirty置为true，更新last，并执行回调函数</div><div class="line">            watcher.last = newValue;</div><div class="line">            watcher.fn(newValue, oldValue);</div><div class="line">            dirty = true;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    return dirty;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>然后在$digest中调用$digestOne，并计算执行次数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$digest = function () &#123;</div><div class="line">    let dirty = false,</div><div class="line">        count = 10;</div><div class="line">    do &#123; // 执行$digestOne，如果dirty为true则再次检查，但是最多不超过10次</div><div class="line">        dirty = this.$digestOne();</div><div class="line">    &#125; while (dirty &amp;&amp; --count);</div><div class="line">    if(dirty &amp;&amp; count == 0)&#123; // 如果执行十次$digestOne后，dirty仍然为true，则报错</div><div class="line">        throw new Error(&apos;10 $digest() iterations reached. Aborting!&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="模拟-apply"><a href="#模拟-apply" class="headerlink" title="模拟$apply"></a>模拟$apply</h3><p>$apply负责执行传递的函数和调用$digest<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$apply = function (fn) &#123;</div><div class="line">    if(typeof fn == &quot;function&quot;)&#123;</div><div class="line">        fn();</div><div class="line">    &#125;</div><div class="line">    this.$digest();</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这样，（简易的）数据绑定工具便制作完成了，接下来我们就用这些工具来写一个双向绑定的demo。</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>在html中添加一个input标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; id=&quot;name&quot;&gt;</div></pre></td></tr></table></figure></p>
+<p>，引入之前创建的工具，在JavaScript代码中写入如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">let scope = new Scope(),</div><div class="line">    input = document.querySelector(&quot;#name&quot;);</div><div class="line"></div><div class="line">scope.$watch(function () &#123; // 在创建变量之前，先为变量绑定$watch监听</div><div class="line">    return scope.name;</div><div class="line">&#125;, function (newValue,oldValue) &#123; // 变量发生改变后将其重新绑定到视图</div><div class="line">    input.value = newValue;</div><div class="line">    console.log(scope.name);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">window.setTimeout(function () &#123;</div><div class="line">    scope.name = &quot;yyh&quot;;</div><div class="line">    scope.$apply(); // 程序中改变变量后执行$apply</div><div class="line">&#125;,2000);</div><div class="line"></div><div class="line"></div><div class="line">input.addEventListener(&quot;keyup&quot;, function () &#123; // 视图发生改变，则执行$apply</div><div class="line">    scope.name = this.value;</div><div class="line">    scope.$apply();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这样，一个（简版的）双向数据绑定demo就完成了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/10/Hello-World/" itemprop="url">
+                  Hello World
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-10T10:42:15+08:00" content="2016-09-10">
+              2016-09-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="杨宇豪的第一篇博客"><a href="#杨宇豪的第一篇博客" class="headerlink" title="杨宇豪的第一篇博客"></a>杨宇豪的第一篇博客</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello world!</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

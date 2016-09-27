@@ -1,0 +1,592 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言
+Angular services are singletons objects or functions that carry out specific tasks common to web apps.
+
+这是Angular中对服务的定义，它是一个单例对象或函数，为web app提供特定的功能。
+Angular中提供的服务都是以“$”开头，通过Angular的依赖注入机制可将服务注入控制器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 自定义服务">
+<meta property="og:url" content="http://yoursite.com/2016/09/15/Angular中的自定义服务/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta property="og:description" content="引言
+Angular services are singletons objects or functions that carry out specific tasks common to web apps.
+
+这是Angular中对服务的定义，它是一个单例对象或函数，为web app提供特定的功能。
+Angular中提供的服务都是以“$”开头，通过Angular的依赖注入机制可将服务注入控制器">
+<meta property="og:updated_time" content="2016-09-20T04:17:10.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 自定义服务">
+<meta name="twitter:description" content="引言
+Angular services are singletons objects or functions that carry out specific tasks common to web apps.
+
+这是Angular中对服务的定义，它是一个单例对象或函数，为web app提供特定的功能。
+Angular中提供的服务都是以“$”开头，通过Angular的依赖注入机制可将服务注入控制器">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/15/Angular中的自定义服务/"/>
+
+  <title> Angular 自定义服务 | 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Angular 自定义服务
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-15T15:18:38+08:00" content="2016-09-15">
+              2016-09-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><blockquote>
+<p>Angular services are singletons objects or functions that carry out specific tasks common to web apps.</p>
+</blockquote>
+<p>这是Angular中对服务的定义，它是一个单例对象或函数，为web app提供特定的功能。</p>
+<p>Angular中提供的服务都是以“$”开头，通过Angular的依赖注入机制可将服务注入控制器中。除此以外，我们还可以通过Angular提供的API来自定义服务。</p>
+<h2 id="自定义服务"><a href="#自定义服务" class="headerlink" title="自定义服务"></a>自定义服务</h2><p>Angular中提供的用于定义服务的服务为<code>$provide</code>（即<code>$provide</code>本身也是一个服务），<code>$provide</code>上有6个方法</p>
+<ul>
+<li>provider</li>
+<li>factory</li>
+<li>service</li>
+<li>value</li>
+<li>constant</li>
+<li>decorator</li>
+</ul>
+<p>前五个用来定义服务，最后一个用来装饰服务。</p>
+<h3 id="provider"><a href="#provider" class="headerlink" title="provider"></a>provider</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">provider(serviceName, constructor)</div></pre></td></tr></table></figure>
+<p><code>provider</code>可以接收两个参数<code>serviceName</code>和<code>constructor_</code>，顾名思义，<code>serviceName</code>就是自定义服务的名称，<code>constructor</code>则是Angular中服务的构造函数。<code>provider</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.config(function ($provide) &#123;</div><div class="line">    $provide.provider(&quot;myService&quot;, function () &#123;</div><div class="line">        this.$get = function () &#123;</div><div class="line">            return&#123;</div><div class="line">                name: &quot;yyh&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>在Angular的依赖注入机制中会用<code>invoke</code>将<code>provider_</code>实例化，在控制器中实际获取的服务为<code>provider_</code>中<code>$get</code>返回的内容。</p>
+<p>Angular为$provide的6个方法提供了简便的写法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        return &#123;</div><div class="line">            name: yyh</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>效果与在<code>config</code>中定义服务相同，其他方法同理，下文将使用这种简便写法。</p>
+<h4 id="配置provider"><a href="#配置provider" class="headerlink" title="配置provider"></a>配置provider</h4><p>Angular提供的服务是可配置的，但只有通过<code>provider</code>方式设置的服务才能实现配置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.name = &quot;yyh&quot;;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        return &#123;</div><div class="line">            name: this.name // 此时name为yyh</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">// 配置myService中的name，注意在myService后添加Provider</div><div class="line">app.config(function (myServiceProvider) &#123;</div><div class="line">    myServiceProvider.name = &quot;yyh1&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出yyh1</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="factory"><a href="#factory" class="headerlink" title="factory"></a>factory</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">factory(serviceName, factoryFn, enforce)</div></pre></td></tr></table></figure>
+<p><code>factory</code>可以接受三个参数，<code>serviceName</code>为服务名，<code>enforce</code>为强制返回值，一般不使用。<code>factory</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.factory(&quot;myService&quot;, function () &#123;</div><div class="line">    return&#123;</div><div class="line">        name: &quot;yyh&quot;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p><code>factory</code>中省去了为<code>$get</code>赋值的过程，其实在<code>factory</code>内部进行了类似的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function factory(serviceName, factoryFn)&#123;</div><div class="line">    return provider(serviceName, &#123;</div><div class="line">        $get: factoryFn</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>即<code>factory</code>为<code>provider</code>的封装。</p>
+<h3 id="service"><a href="#service" class="headerlink" title="service"></a>service</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">service(serviceName, constructor)</div></pre></td></tr></table></figure>
+<p><code>service</code>可以接受两个参数，其用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.service(&quot;myService&quot;, function () &#123;</div><div class="line">    this.name = &quot;yyh&quot;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>即在<code>constructor</code>中直接通过<code>this</code>来设置服务的内容，相比<code>factory</code>又更简洁了一些，其实其内部调用了<code>factory</code>，通过一个名为<code>instantiate</code>的函数将<code>constructor</code>的内容实例化后传入到<code>factory</code>中。其内部原理类似于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function service(servicName, constructor)&#123;</div><div class="line">    return factory(serviceName, function()&#123;</div><div class="line">        return instantiate(constructor) // 将constructor实例化</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="value"><a href="#value" class="headerlink" title="value"></a>value</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">value(serviceName, val)</div></pre></td></tr></table></figure>
+<p><code>value</code>接受两个参数，服务名和服务内容。其使用方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.value(&quot;myService&quot;, &#123;</div><div class="line">    name: &quot;yyh&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>即<code>val</code>的内容就是服务的内容，这种写法最为简洁，原理也很简单。</p>
+<p><code>value</code>的内部同样调用了<code>factory</code>，其内部进行的操作类似于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function value(serviceName, val)&#123;</div><div class="line">    return factory(serviceName, function()&#123;</div><div class="line">        return val;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注意：以上对于value、service、factory原理解释的代码并非Angular源码，只是作者为便于说明而添加的。</p>
+<h3 id="constant"><a href="#constant" class="headerlink" title="constant"></a>constant</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">constant(name, value)</div></pre></td></tr></table></figure>
+<p><code>constant</code>的使用方法和<code>value</code>类似，这里附上其源码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function constant(name, value) &#123;</div><div class="line">    assertNotHasOwnProperty(name, &apos;constant&apos;);</div><div class="line">    providerCache[name] = value; // 服务缓存，所有服务都是从这里获取</div><div class="line">    instanceCache[name] = value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>代码中的注释为本文作者添加。</p>
+<p>可以看到，<code>constant</code>直接将<code>value</code>中的内容放入到服务缓存中，这种做法导致的后果就是<code>constant</code>中的内容不可被修改。<code>constant</code>也是定义服务的方法中唯一没有调用<code>provider</code>的。</p>
+<h3 id="decorator"><a href="#decorator" class="headerlink" title="decorator"></a>decorator</h3><p>翻译为中文就是修饰，用于动态的扩展服务，扩展的服务只在当前模块内起作用，而不会影响到其他模块。<code>decorator</code>的用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">let app = angular.module(&quot;appModule&quot;, []);</div><div class="line"></div><div class="line">app.value(&quot;myService&quot;, &#123;</div><div class="line">    name: &quot;yyh&quot;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.config(function ($provide) &#123;</div><div class="line">    $provide.decorator(&quot;myService&quot;, function ($delegate) &#123;</div><div class="line">        // $delegate为原服务</div><div class="line">        $delegate.age = &quot;20&quot;;</div><div class="line">        return $delegate; // 返回装饰后的服务</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.controller(&quot;first&quot;, function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出 yyh</div><div class="line">    console.log(myService.age); // 输出 20</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/10/Angular数据双向绑定原理/" rel="next" title="Angular 数据双向绑定原理">
+                <i class="fa fa-chevron-left"></i> Angular 数据双向绑定原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/17/Angular依赖注入原理/" rel="prev" title="Angular 依赖注入原理">
+                Angular 依赖注入原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义服务"><span class="nav-number">2.</span> <span class="nav-text">自定义服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#provider"><span class="nav-number">2.1.</span> <span class="nav-text">provider</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置provider"><span class="nav-number">2.1.1.</span> <span class="nav-text">配置provider</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#factory"><span class="nav-number">2.2.</span> <span class="nav-text">factory</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service"><span class="nav-number">2.3.</span> <span class="nav-text">service</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#value"><span class="nav-number">2.4.</span> <span class="nav-text">value</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constant"><span class="nav-number">2.5.</span> <span class="nav-text">constant</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#decorator"><span class="nav-number">2.6.</span> <span class="nav-text">decorator</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

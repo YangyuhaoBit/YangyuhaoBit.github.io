@@ -1,0 +1,319 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html lang="">
+<head>
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="author" content="John Doe">
+  
+  
+  
+  
+    <meta name="description" content="引言作为一个MVVM框架，数据双向绑定可以说是Angular最核心的功能之一，本文就以JavaScript语言来讲解其背后的原理。
+在Angular中添加这样一段html代码1234&lt;div&gt;    &lt;input type=&quot;text&quot; ng-model=&quot;input&quot;&gt;    &#123;&#123;input&#125;&#...">
+  
+  <title>Angular 数据双向绑定原理 [ 杨宇豪 ]</title>
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+  <link rel="stylesheet" href="/css/random.css">
+<link rel="stylesheet" href="/css/vegas.min.css">
+<link rel="stylesheet" href="/css/highlight-railscasts.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+<link rel="stylesheet" href="/css/jquery.fancybox-thumbs.css">
+<link rel="stylesheet" href="/css/plyr.css">
+  
+</head>
+
+<body>
+<div class="side-navigate hide-area">
+  
+    <div class="item prev">
+      <a href="/2016/09/11/hello-world/">
+        <div class="item-icon"></div>
+      </a>
+      <div class="item-title">
+        Hello World
+      </div>
+    </div>
+  
+  
+</div>
+<div id="outer-container" class="hide-area">
+<div id="container">
+  <div id="menu-outer" class="slide-down">
+    <div id="menu-inner">
+      <div id="brand">
+        
+        <a onClick="openUserCard()">
+          <img id="avatar" src="http://7te9fe.com1.z0.glb.clouddn.com/default_avatar.jpg"/>
+          <div id="homelink">杨宇豪</div>
+        </a>
+      </div>
+      <div id="menu-list">
+        <ul>
+        
+        
+          
+            <li>
+          
+            <a href="/index.html">首页</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="/archives">文章</a>
+            
+          </li>
+        
+          
+            <li>
+          
+            <a href="https://github.com/YangyuhaoBit/YangyuhaoBit.github.io">Github</a>
+            
+          </li>
+        
+        </ul>
+      </div>
+      <div id="show-menu">
+        <button>Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-outer">
+    <div id="content-inner">
+      
+      
+  <article id="post">
+    <h1>Angular 数据双向绑定原理</h1>
+    <p class="page-title-sub">
+      <span id = "post-title-date">Created at 2015-09-13</span>
+      
+        <span id = "post-title-updated">Updated at 2016-09-15</span>
+      
+      
+      
+    </p>
+    
+    <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>作为一个MVVM框架，数据双向绑定可以说是Angular最核心的功能之一，本文就以JavaScript语言来讲解其背后的原理。</p>
+<p>在Angular中添加这样一段html代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;input type=&quot;text&quot; ng-model=&quot;input&quot;&gt;</div><div class="line">    &#123;&#123;input&#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>此时input输入框的后面便会实时显示用户输入的内容，那么它是怎样实现的呢？要明白这背后的原理，就需要先学习两个函数$scope.$watch和$scope.$apply</p>
+<h2 id="scope-watch"><a href="#scope-watch" class="headerlink" title="$scope.$watch"></a>$scope.$watch</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$scope.$watch(exp, listener, objectEquality)</div></pre></td></tr></table></figure>
+<p>$scope.$watch用于监听一个当前作用域变量的变化，第一个参数监听变量的表达式（exp），第二个参数为变量变化时的回调函数（listener），第三个参数表示监听的是一个变量还是对象。当监听的是一个变量时，可以忽略第三个参数。例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$scope.name = &quot;yyh&quot;;</div><div class="line"></div><div class="line">$scope.$watch(&quot;name&quot;, function (newValue, oldValue) &#123;</div><div class="line">    console.log(&quot;$scope.name was changed&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>listener中的newValue为当前变量的最新值，oldValue则为更改前的值。</p>
+<p>其中第一个参数也能以函数的形式传递，只要在函数中返回需要监听的变量即可，如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$scope.$watch( function()&#123;</div><div class="line">    return $scope.name;</div><div class="line">&#125;, function (newValue, oldValue) &#123;</div><div class="line">    console.log(&quot;$scope.name was changed&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这种写法的效率较高，因为如果第一个参数为字符串，Angular也会将其替换为函数。</p>
+<p>在Angular的$scope中创建变量时，Angular会自动执行$watch来监听这一变量。</p>
+<p>调用$scope.$watch后，Angular会将当前变量注册到监听列表$scope.$$watchers中。</p>
+<h3 id="scope-watchers"><a href="#scope-watchers" class="headerlink" title="$scope.$$watchers"></a>$scope.$$watchers</h3><p>$scope中的$$watchers数组保存着当前注册监听的变量，其结构为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$$watchers = [</div><div class="line">    &#123;</div><div class="line">        eq: false, // 表明监听的变量是否为一个对象</div><div class="line">        fn: function( newValue, oldValue ) &#123;&#125;, // 监听函数(listener)</div><div class="line">        last: &apos;yyh&apos;, // 变量最新值</div><div class="line">        exp: function()&#123;&#125;, // 监听变量的表达式函数(exp)</div><div class="line">        get: function()&#123;&#125; // Angular编译后的exp函数</div><div class="line">    &#125;</div><div class="line">];</div></pre></td></tr></table></figure></p>
+<h2 id="scope-apply"><a href="#scope-apply" class="headerlink" title="$scope.$apply"></a>$scope.$apply</h2><p>在讲解$scope.$apply之前，需要先了解$rootScope.$digest</p>
+<h3 id="rootScope-digest"><a href="#rootScope-digest" class="headerlink" title="$rootScope.$digest"></a>$rootScope.$digest</h3><p>$rootScope.$digest即脏值检查函数，它会遍历所有$scope中的$$watchers数组，将每一个watcher（$$watchers的每一项）的last属性与当前变量的最新值进行比较，如果在任意一个watcher中发现两者不相等（检查结果为dirty），则执行watcher中的fn函数，并在脏值检查完毕后刷新视图。</p>
+<p>为了防止watcher的fn函数中再次更改变量，如果检测到有值发生了改变，则脏值检查会再执行一次。</p>
+<p>同时为了防止watcher的fn函数中无限次更改变量，脏值检查最多只会执行十次，且如果此时执行结果仍为dirty，则throw一个error。</p>
+<h3 id="scope-apply-1"><a href="#scope-apply-1" class="headerlink" title="$scope.$apply"></a>$scope.$apply</h3><p>$scope.$apply的作用为刷新视图，$scope.$apply可以传一个函数作为其参数，$scope.$apply会先执行这个函数，然后再去执行$rootScope.$digest。</p>
+<p>Angular的指令、控制器等运行时都会在结尾时执行$scope.$apply，而JavaScript原生的函数则没有这一功能，如setTimeout、setInterval等，例如在JavaScript中写入如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.controller(&quot;first&quot;, function ($scope) &#123;</div><div class="line">    $scope.name = &quot;yyh&quot;;</div><div class="line">    window.setTimeout(function () &#123;</div><div class="line">        $scope.name = &quot;yyh1&quot;;</div><div class="line">        console.log($scope.$$watchers[0])</div><div class="line">    &#125;,2000)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>在html中写入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div ng-controller=&quot;first&quot;&gt;</div><div class="line">    &#123;&#123;name&#125;&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>可以看到，2秒后视图并没有发生变化，此时控制台输出的watcher中的last也没有更新，此时如果将JavaScript代码 更改为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">app.controller(&quot;first&quot;, function ($scope) &#123;</div><div class="line">    $scope.name = &quot;yyh&quot;;</div><div class="line">    window.setTimeout(function () &#123;</div><div class="line">        $scope.name = &quot;yyh1&quot;;</div><div class="line">        console.log($scope.$$watchers[0]);</div><div class="line">        $scope.$apply();// 执行$apply</div><div class="line">    &#125;,2000)</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>则2秒后视图便会发生变化，这就是模型绑定视图的原理。</p>
+<p>同时，为了能够实现模型绑定视图，Angular为以下事件都绑定了$scope$apply方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste</div></pre></td></tr></table></figure></p>
+<p>即用户触发以上事件时，Angular自动执行$scope$apply，这就实现了视图绑定模型。</p>
+<h2 id="模拟双向数据绑定"><a href="#模拟双向数据绑定" class="headerlink" title="模拟双向数据绑定"></a>模拟双向数据绑定</h2><p>为了更深入地理解Angular的双向数据绑定的原理，我们用原生JavaScript来自己实现一个简版的数据双向绑定。</p>
+<p>首先是scope的构造函数，每个scope都有自己私有的$$watchers和公有的$watch、$apply、$digest方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function Scope()&#123;</div><div class="line">    this.$$watchers = [];</div><div class="line">&#125;</div><div class="line"></div><div class="line">Scope.prototype.$watch = function () &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Scope.prototype.$apply = function () &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Scope.prototype.$digest = function () &#123;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>然后分别实现这三个方法</p>
+<h3 id="模拟-watch"><a href="#模拟-watch" class="headerlink" title="模拟$watch"></a>模拟$watch</h3><p>$watch的作用为注册监听变量，即将参数封装为一个对象后push到$$watchers中，本文为了简便只为watcher添加fn、exp、last属性，且默认exp为函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$watch = function (exp, listener) &#123;</div><div class="line">    let watcher = &#123;</div><div class="line">        exp: exp,</div><div class="line">        fn: listener,</div><div class="line">        last: exp() // 获取变量最新值</div><div class="line">    &#125;;</div><div class="line">    this.$$watchers.push(watcher);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="模拟-digest"><a href="#模拟-digest" class="headerlink" title="模拟$digest"></a>模拟$digest</h3><p>$digest为脏值检查，首先将单次脏值检查的过程封装在$digestOne中，其返回值dirty为true则表示变量发生了改变</p>
+<p>$digestOne<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$digestOne = function () &#123;</div><div class="line">    let dirty = false;</div><div class="line">    this.$$watchers.forEach(function (watcher) &#123; // 遍历所有watcher</div><div class="line">        let newValue = watcher.exp(),</div><div class="line">            oldValue = watcher.last;</div><div class="line">        if (newValue !== oldValue) &#123; // 如果监听到值发生改变，则将dirty置为true，更新last，并执行回调函数</div><div class="line">            watcher.last = newValue;</div><div class="line">            watcher.fn(newValue, oldValue);</div><div class="line">            dirty = true;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    return dirty;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>然后在$digest中调用$digestOne，并计算执行次数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$digest = function () &#123;</div><div class="line">    let dirty = false,</div><div class="line">        count = 10;</div><div class="line">    do &#123; // 执行$digestOne，如果dirty为true则再次检查，但是最多不超过10次</div><div class="line">        dirty = this.$digestOne();</div><div class="line">    &#125; while (dirty &amp;&amp; --count);</div><div class="line">    if(dirty &amp;&amp; count == 0)&#123; // 如果执行十次$digestOne后，dirty仍然为true，则报错</div><div class="line">        throw new Error(&apos;10 $digest() iterations reached. Aborting!&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h3 id="模拟-apply"><a href="#模拟-apply" class="headerlink" title="模拟$apply"></a>模拟$apply</h3><p>$apply负责执行传递的函数和调用$digest<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Scope.prototype.$apply = function (fn) &#123;</div><div class="line">    if(typeof fn == &quot;function&quot;)&#123;</div><div class="line">        fn();</div><div class="line">    &#125;</div><div class="line">    this.$digest();</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这样，（简易的）数据绑定工具便制作完成了，接下来我们就用这些工具来写一个双向绑定的demo。</p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>在html中添加一个input标签<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; id=&quot;name&quot;&gt;</div></pre></td></tr></table></figure></p>
+<p>，引入之前创建的工具，在JavaScript代码中写入如下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">let scope = new Scope(),</div><div class="line">    input = document.querySelector(&quot;#name&quot;);</div><div class="line"></div><div class="line">scope.$watch(function () &#123; // 在创建变量之前，先为变量绑定$watch监听</div><div class="line">    return scope.name;</div><div class="line">&#125;, function (newValue,oldValue) &#123; // 变量发生改变后将其重新绑定到视图</div><div class="line">    input.value = newValue;</div><div class="line">    console.log(scope.name);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">window.setTimeout(function () &#123;</div><div class="line">    scope.name = &quot;yyh&quot;;</div><div class="line">    scope.$apply(); // 程序中改变变量后执行$apply</div><div class="line">&#125;,2000);</div><div class="line"></div><div class="line"></div><div class="line">input.addEventListener(&quot;keyup&quot;, function () &#123; // 视图发生改变，则执行$apply</div><div class="line">    scope.name = this.value;</div><div class="line">    scope.$apply();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这样，一个（超简版的）双向数据绑定demo就完成了。</p>
+
+  </article>
+  <div class="random-toc-area">
+  <button class="btn-hide-toc btn-hide-toc-show" style="display: none" onclick="TOCToggle()">Show TOC</button>
+  <button class="btn-hide-toc btn-hide-toc-hide" onclick="TOCToggle()">Hide TOC</button>
+  <div class="random-toc">
+    <h2>Table of Content</h2>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#引言"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scope-watch"><span class="toc-text">$scope.$watch</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#scope-watchers"><span class="toc-text">$scope.$$watchers</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scope-apply"><span class="toc-text">$scope.$apply</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rootScope-digest"><span class="toc-text">$rootScope.$digest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#scope-apply-1"><span class="toc-text">$scope.$apply</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模拟双向数据绑定"><span class="toc-text">模拟双向数据绑定</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟-watch"><span class="toc-text">模拟$watch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟-digest"><span class="toc-text">模拟$digest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#模拟-apply"><span class="toc-text">模拟$apply</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#demo"><span class="toc-text">demo</span></a></li></ol>
+  </div>
+</div>
+
+  
+<nav id="pagination">
+  
+    <a href="/2016/09/11/hello-world/" class="prev">&larr; Prev post Hello World</a>
+  
+
+  
+
+  
+</nav>
+
+  <!-- JiaThis Button BEGIN -->
+
+<!-- JiaThis Button END -->
+
+
+      
+      
+      
+    </div>
+  </div>
+
+  <div id="bottom-outer">
+    <div id="bottom-inner">
+      Site by John Doe using
+      <a href="http://hexo.io">Hexo</a> & <a href="https://github.com/stiekel/hexo-theme-random">Random</a>
+      <br>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+<div id="user-card">
+  <div class="center-field">
+    <img class="avatar" src="http://7te9fe.com1.z0.glb.clouddn.com/default_avatar.jpg">
+    <p id="description"></p>
+    <ul class="social-icon">
+  
+  
+    <li>
+      <a href="https://github.com/YangyuhaoBit/YangyuhaoBit.github.io">
+        
+          <i class="icon iconfont github">&#xe606;</i>
+        
+      </a>
+    </li>
+  
+</ul>
+  </div>
+</div>
+
+
+<div id="btn-view">Hide</div>
+
+<script>
+// is trigger analytics / tongji script
+var isIgnoreHost = false;
+
+if(window && window.location && window.location.host) {
+  isIgnoreHost = ["localhost","127.0.0.1"].some(function(address){
+    return 0 === window.location.host.indexOf(address);
+  });
+}
+
+var isTriggerAnalytics = !( true && isIgnoreHost );
+
+</script>
+
+
+
+
+  
+  
+    <script src="/js/jquery-2.2.3.min.js"></script>
+  
+    <script src="/js/vegas.min.js"></script>
+  
+    <script src="/js/random.js"></script>
+  
+    <script src="/js/highlight.pack.js"></script>
+  
+    <script src="/js/jquery.mousewheel.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox.pack.js"></script>
+  
+    <script src="/js/jquery.fancybox-thumbs.js"></script>
+  
+    <script src="/js/plyr.js"></script>
+  
+
+<script>
+
+  // fancybox
+  var backgroundImages = [];
+  
+  $('#post').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox') || $(this).parent().hasClass('fancybox-thumb')) return;
+      var alt = this.alt || this.title;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'post' + i);
+    });
+  });
+  $(".fancybox").fancybox();
+
+var vegasConfig = {"preload­Image":true,"transition":["slideLeft2","slideRight2","flash2"],"timer":true,"delay":5000,"shuffle":true,"count":28};
+var unsplashConfig = {"gravity":"north"};
+// is show background images
+var turnoffBackgroundImage = false;
+
+
+
+  turnoffBackgroundImage = true;
+
+
+var backgroundColor = "D7CCC8";
+
+$(".fancybox-thumb").fancybox({
+  prevEffect: 'none',
+  nextEffect: 'none',
+  helpers: {
+    title: {
+      type: 'outside'
+    },
+    thumbs: {
+      width: 50,
+      height: 50
+    }
+  }
+});
+
+// show video with plyr
+$(".video-container iframe").each(function(i){
+  var url = $(this).attr('src');
+  var id = url.split('/').pop();
+  var plyrContainer = document.createElement('div');
+  plyrContainer.className = 'plyr';
+  var plyrElement = document.createElement('div');
+  plyrElement.dataset.videoId = id;
+  switch(true) {
+    case url.search('youtube.com') >= 0:
+      plyrElement.dataset.type = 'youtube';
+      break;
+    case url.search('vimeo.com') >= 0:
+      plyrElement.dataset.type = 'vimeo';
+      break;
+    default:
+      return;
+  };
+  plyrContainer.appendChild(plyrElement);
+  $(this).parent().html(plyrContainer);
+});
+plyr.setup('.plyr', {iconUrl: '/css/sprite.svg'});
+</script>
+</body>
+</html>
+
