@@ -270,7 +270,8 @@
         
           
             <p>本文会持续更新……</p>
-<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><p>fs中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含<code>../</code>、<code>./</code>、<code>/</code>的相对路径）。</p>
+<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><p><code>node</code>中通过<code>require</code>引入模块的机制为将需要的模块对应的<code>js</code>文件引入后执行一遍，因此在自己写的依赖模块中尽量不要无故输出信息，否则会使控制台十分混乱。</p>
+<h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><p><code>fs</code>模块中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含<code>../</code>、<code>./</code>、<code>/</code>的相对路径）。</p>
 <h4 id="fs-mkdir-mkdirSync"><a href="#fs-mkdir-mkdirSync" class="headerlink" title="fs.mkdir/mkdirSync"></a>fs.mkdir/mkdirSync</h4><p>API<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.mkdir(path, callback)</div></pre></td></tr></table></figure></p>
 <p>创建文件夹操作，支持文件夹嵌套，例如<code>fs.mkdir(&#39;./a/b/c&#39;)</code>,回调函数中的参数为<code>Error</code>信息，只有发生错误的时候才会存在，创建成功则为<code>null</code>。</p>
 <p><code>mkdir</code>操作的路径如果有文件夹嵌套，则当上级路径不存在时，不能直接创建。例如当前文件夹下没有<code>a</code>文件夹，则<code>fs.mkdir(&#39;./a/b&#39;)</code>不能直接创建<code>a</code>和<code>a/b</code>文件夹。</p>
@@ -289,7 +290,7 @@
 <p>注意这里的<code>option</code>中的<code>max-age</code>单位变为了毫秒，其他则没有变化。</p>
 <p>获取客户端传递的<code>cookies</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.cookies</div></pre></td></tr></table></figure></p>
 <p>获取的<code>cookies</code>为对象形式。</p>
-<p>IDE没有提示功能或者提示功能不全的朋友请自觉区分上文中的<code>cookie</code>和<code>cookies</code>并背诵熟练 :)。</p>
+<p>IDE没有提示功能或者提示功能不全的朋友请注意上文中的<code>cookie</code>和<code>cookies</code>并背诵熟练 :)。</p>
 
           
         
