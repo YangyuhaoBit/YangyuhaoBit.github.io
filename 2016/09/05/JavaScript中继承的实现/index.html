@@ -1,0 +1,578 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言JavaScript中没有类的概念，所有类的概念都是来源于prototype，因此在实现类的继承的方法上，各路程序员各显神通，总结出了一个又一个的方法。当然，如果你使用的是ES6，可以直接跳到最后一页。
+本文将总结过去被用来实现继承的方法，分析他们的优缺点以及适用环境。本文适合对原型、构造函数有一定了解的读者。
+首先准备原料：123456789101112131415function Pare">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 中继承的实现方法">
+<meta property="og:url" content="http://yoursite.com/2016/09/05/JavaScript中继承的实现/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta property="og:description" content="引言JavaScript中没有类的概念，所有类的概念都是来源于prototype，因此在实现类的继承的方法上，各路程序员各显神通，总结出了一个又一个的方法。当然，如果你使用的是ES6，可以直接跳到最后一页。
+本文将总结过去被用来实现继承的方法，分析他们的优缺点以及适用环境。本文适合对原型、构造函数有一定了解的读者。
+首先准备原料：123456789101112131415function Pare">
+<meta property="og:updated_time" content="2016-10-01T15:54:11.451Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript 中继承的实现方法">
+<meta name="twitter:description" content="引言JavaScript中没有类的概念，所有类的概念都是来源于prototype，因此在实现类的继承的方法上，各路程序员各显神通，总结出了一个又一个的方法。当然，如果你使用的是ES6，可以直接跳到最后一页。
+本文将总结过去被用来实现继承的方法，分析他们的优缺点以及适用环境。本文适合对原型、构造函数有一定了解的读者。
+首先准备原料：123456789101112131415function Pare">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/05/JavaScript中继承的实现/"/>
+
+  <title> JavaScript 中继承的实现方法 | 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 中继承的实现方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-05T21:01:27+08:00" content="2016-09-05">
+              2016-09-05
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p><code>JavaScript</code>中没有类的概念，所有类的概念都是来源于<code>prototype</code>，因此在实现类的继承的方法上，各路程序员各显神通，总结出了一个又一个的方法。当然，如果你使用的是<code>ES6</code>，可以直接跳到最后一页。</p>
+<p>本文将总结过去被用来实现继承的方法，分析他们的优缺点以及适用环境。本文适合对原型、构造函数有一定了解的读者。</p>
+<p>首先准备原料：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function Parent(name,age)&#123; // 父类</div><div class="line">    this.name = name;</div><div class="line">    this.age = age;</div><div class="line">    this.address = &apos;Peking&apos;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Parent.prototype.sayName = function () &#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function Child(name, age)&#123;&#125; // 子类</div><div class="line"></div><div class="line">Child.prototype.sayAge = function () &#123;</div><div class="line">    console.log(this.age);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>父类三个私有属性<code>name</code>、<code>age</code>、<code>address</code>，其中<code>address</code>属性不是根据构造函数传递的参数来决定的，同时父类还有一个公有方法<code>sayName</code>，子类也有一个公有方法<code>sayAge</code>。</p>
+<h2 id="1-call-apply继承"><a href="#1-call-apply继承" class="headerlink" title="1.call/apply继承"></a>1.call/apply继承</h2><p>这种方法也叫作构造函数绑定，具体实现方法就是在子类的构造函数中通过<code>call/apply</code>调用父类构造函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Child(name, age) &#123;</div><div class="line">    Parent.apply(this, arguments);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>显然，这种继承方式只是将父类的私有属性继承为了子类的私有属性，是最简单的继承方法。</p>
+<p>但是很多时候，我们还需要继承父类原型上的属性，同时，这种继承方法让我们无法获知子类继承自哪一父类，尤其是当子类继承了多个父类时。因此，这一方法更多的还是同其他继承方法混合使用。</p>
+<h2 id="2-原型链继承"><a href="#2-原型链继承" class="headerlink" title="2.原型链继承"></a>2.原型链继承</h2><p>为子类构造函数的<code>prototype</code>重新赋值为父类的一个实例，实现方法如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Child.prototype = new Parent();</div></pre></td></tr></table></figure></p>
+<p>这种方法可以将父类的公有属性和私有属性都继承为子类的公有属性，比较符合我们队原型链的认知。此处没有为<code>Parent</code>构造函数传递参数，也可以选择传递。</p>
+<p>值得注意的是，这种方法会覆盖子类原有的<code>prototype</code>，所以我们需要对原型链进行一些维护，具体到本问题，则需要做如下处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Child.prototype.sayAge = function () &#123; // 子类原有的公有方法会被覆盖，应在继承后声明</div><div class="line">    console.log(this.age);</div><div class="line">&#125;;</div><div class="line">Child.prototypr.constructor = Child; // 将丢失的constructor属性补全</div></pre></td></tr></table></figure></p>
+<p>另外，如果在为<code>Child.prototype</code>赋值的时候不为<code>Parent</code>构造函数传递参数，则<code>name</code>、<code>age</code>属性虽然会被赋值一次，但是值仍然为<code>undefined</code>，相当于没有继承，而<code>address</code>属性却会被强制继承，这样既浪费性能，也不便于我们管理。</p>
+<h2 id="3-prototype直接继承"><a href="#3-prototype直接继承" class="headerlink" title="3.prototype直接继承"></a>3.prototype直接继承</h2><p>有时候，我们不需要继承父类的私有属性，此时便可以直接将子类的<code>prototype</code>赋值为父类的<code>prototytpe</code>，具体做法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Child.prototype = Parent.prototype;</div></pre></td></tr></table></figure></p>
+<p>但是，这种方法也需要对原型链进行维护，但此时问题就来了，因为<code>Child.prototype</code>与<code>Parent.prototype</code>指向的是同一个对象，因此修改<code>Child.prototype.constructor = Child</code>的同时也会将<code>Parent.prototype。constructor</code>修改为<code>Child</code>，这显然不是我们希望的。所有我们有了第四种方法。</p>
+<h2 id="4-中间件继承"><a href="#4-中间件继承" class="headerlink" title="4.中间件继承"></a>4.中间件继承</h2><p>因为<code>prototype</code>直接继承方法的缺陷，我们想到，可以让子类的原型先等于一个空构对象，再让这个空对象的原型等于父类的原型，就可以避免这一缺陷。实现方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let Fn = function()&#123;&#125;;</div><div class="line">Fn.prototype = Parent.prototype;</div><div class="line">Child.prototype = new Fn();</div><div class="line">Child.constructor = Child;</div></pre></td></tr></table></figure></p>
+<p>这样就可以避免对子类原型的修改涉及父类。</p>
+<p>熟悉原型链的读者想必已经想到了更简单的方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Child.prototype.__proto__ = Parent.prototype;</div></pre></td></tr></table></figure></p>
+<p>因为子类原型的<code>__proto__</code>属性本来就是一个对象，所以直接对其赋值便可以实现中间件继承。这种写法不会修改类的原型，个人认为是中间件继承的最优写法（如果修改<code>__proto__</code>这一行为不被禁止的话）。</p>
+<h2 id="5-Object-create继承"><a href="#5-Object-create继承" class="headerlink" title="5.Object.create继承"></a>5.Object.create继承</h2><p>这种方法最先的实现方式是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function object(class)&#123;</div><div class="line">    function Fn()&#123;&#125;</div><div class="line">    Fn.prototype = class;</div><div class="line">    return new Fn();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种方法抛弃了构造函数，<code>object()</code>不是构造函数，却直接返回了一个新的对象，这个对象可以看作是我们需要的子类实例。</p>
+<p>和中间件继承相比，就会发现他们一些相似的地方，因此这一函数也可以用来实现中间件继承<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Child.prototype = object(Parent.prototype);</div></pre></td></tr></table></figure></p>
+<p>后来这一方法被<code>ES5</code>纳入了官方文档，通过<code>Object.create()</code>来使用。</p>
+<h2 id="6-拷贝继承"><a href="#6-拷贝继承" class="headerlink" title="6.拷贝继承"></a>6.拷贝继承</h2><p>抛弃构造函数实现继承的方法还有一种，就是拷贝继承，即将父对象的属性全部拷贝给子对象，以此来实现继承：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function copy(parent)&#123;</div><div class="line">    let child = &#123;&#125;;</div><div class="line">    for(let key in parent)&#123; // 将父对象的属性拷贝给子对象</div><div class="line">        child[key] = parent[key];</div><div class="line">    &#125;</div><div class="line">    return child;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但这种方法有一个问题，就是如果父对象的某一属性为<code>Array</code>、<code>Object</code>引用数据类型时，便无法实现真正的拷贝，只是传递了这些数据的引用而已。</p>
+<p>解决这一问题的方法当然是使用递归：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function copy(parent) &#123;</div><div class="line">    let child = &#123;&#125;;</div><div class="line">    for (let key in parent) &#123;</div><div class="line">        let curProp = parent[key];</div><div class="line">        if (curProp &amp;&amp; typeof curProp == &apos;object&apos;) &#123; // 如果属性为对象或数组且不为空则递归调用copy方法</div><div class="line">            child[key] = copy(curProp);</div><div class="line">        &#125; else &#123;</div><div class="line">            child[key] = curProp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return child;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种继承方法的好处是比较自由，如果配合<code>hasOwnProperty</code>或别的条件来设置判断的话，可以实现自定义的继承，也就是说只要你愿意，可以父对象将任意的属性继承为子对象私有或公有属性。</p>
+<p>即使不使用其他判断条件，这种方法还是有很多好处，例如彻底隔绝子对象和父对象的关系，不管怎么修改子对象的原型链，父对象都不会受影响。</p>
+<p>这种继承方法也是目前<code>jQuery</code>中使用的继承方法。</p>
+<h2 id="7-混合继承"><a href="#7-混合继承" class="headerlink" title="7.混合继承"></a>7.混合继承</h2><p>混合继承就是将上述几种方法中的两种或多种混合使用。</p>
+<p>上述的几种继承方式中，<code>call/apply</code>继承可以将父类的私有属性继承为子类的私有属性，中间件继承可以将父类的公有属性继承为子类的公有属性，且不会破坏原型链，因此这两种方法最常在混合继承中同时使用。</p>
+<h2 id="8-node中的继承"><a href="#8-node中的继承" class="headerlink" title="8.node中的继承"></a>8.node中的继承</h2><p>在<code>node</code>中同样可以使用上述其他方法，不过<code>node</code>的内置模块<code>util</code>提供了一个继承方法供我们直接使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let util = require(&apos;util&apos;);</div><div class="line">util.inherits(Child,Parent);</div></pre></td></tr></table></figure></p>
+<p>这个方法的效果其实和中间件继承相同。</p>
+<h2 id="9-ES6"><a href="#9-ES6" class="headerlink" title="9.ES6"></a>9.ES6</h2><p><code>ES6</code>提供的<code>class</code>和<code>extends</code>语法使得<code>JavaScript</code>（在语法上）第一次有了类的概念，它们的使用方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">class Parent &#123;</div><div class="line">    constructor(name, age) &#123;</div><div class="line">        this.name = name;</div><div class="line">        this.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    getName() &#123;</div><div class="line">        console.log(this.name);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Child extends Parent &#123;</div><div class="line">    constructor(name, age) &#123;</div><div class="line">        super(name, age);</div><div class="line">    &#125;</div><div class="line">    getAge()&#123;</div><div class="line">        console.log(this.age);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>constructor</code>其实就是构造函数，<code>constructor</code>的外部就是原型上的方法。如果想添加静态方法，可以在<code>constructor</code>的外部使用<code>static</code>关键字来添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Parent &#123;</div><div class="line">    constructor(name, age) &#123;</div><div class="line">        this.name = name;</div><div class="line">        this.age = age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    static sayHello()&#123;</div><div class="line">        console.log(&apos;hello&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">Parent.sayHello();// 输出“hello”</div></pre></td></tr></table></figure></p>
+<p>值得一提的是，目前<code>class</code>和<code>extends</code>只能起语法糖的功效，它的效果类似于上文所说的<code>call/apply</code>+中间件继承的混合继承方法，其本质还是基于原型链的继承（例如上文的<code>Child</code>类在<code>extends</code>时，<code>Parent</code>仍然可以是一个传统的构造函数，或者打印各个<code>class</code>，其本质还是<code>function</code>）。因此，熟悉其他继承方法，对于理解<code>ES6</code>及后续的继承方法还是很有用的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/10/Angular数据双向绑定原理/" rel="prev" title="Angular 数据双向绑定原理">
+                Angular 数据双向绑定原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-call-apply继承"><span class="nav-number">2.</span> <span class="nav-text">1.call/apply继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-原型链继承"><span class="nav-number">3.</span> <span class="nav-text">2.原型链继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-prototype直接继承"><span class="nav-number">4.</span> <span class="nav-text">3.prototype直接继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-中间件继承"><span class="nav-number">5.</span> <span class="nav-text">4.中间件继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Object-create继承"><span class="nav-number">6.</span> <span class="nav-text">5.Object.create继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-拷贝继承"><span class="nav-number">7.</span> <span class="nav-text">6.拷贝继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-混合继承"><span class="nav-number">8.</span> <span class="nav-text">7.混合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-node中的继承"><span class="nav-number">9.</span> <span class="nav-text">8.node中的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-ES6"><span class="nav-number">10.</span> <span class="nav-text">9.ES6</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
