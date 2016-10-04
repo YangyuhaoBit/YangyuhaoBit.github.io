@@ -1,0 +1,569 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="本文会持续更新……
+核心模块requirenode中通过require引入模块的机制为将需要的模块对应的js文件引入后执行一遍，因此在自己写的依赖模块中尽量不要无故输出信息，否则会使控制台十分混乱。
+fsfs模块中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含../、./、/的相对路径）。
+fs.mkdir/mkdirSyncAPI1fs.mkdir(path, callback">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node 中的一些坑">
+<meta property="og:url" content="http://yoursite.com/2016/09/25/node-中的一些坑/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta property="og:description" content="本文会持续更新……
+核心模块requirenode中通过require引入模块的机制为将需要的模块对应的js文件引入后执行一遍，因此在自己写的依赖模块中尽量不要无故输出信息，否则会使控制台十分混乱。
+fsfs模块中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含../、./、/的相对路径）。
+fs.mkdir/mkdirSyncAPI1fs.mkdir(path, callback">
+<meta property="og:updated_time" content="2016-10-02T02:38:53.788Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="node 中的一些坑">
+<meta name="twitter:description" content="本文会持续更新……
+核心模块requirenode中通过require引入模块的机制为将需要的模块对应的js文件引入后执行一遍，因此在自己写的依赖模块中尽量不要无故输出信息，否则会使控制台十分混乱。
+fsfs模块中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含../、./、/的相对路径）。
+fs.mkdir/mkdirSyncAPI1fs.mkdir(path, callback">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/25/node-中的一些坑/"/>
+
+  <title> node 中的一些坑 | 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                node 中的一些坑
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-25T21:01:27+08:00" content="2016-09-25">
+              2016-09-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文会持续更新……</p>
+<h2 id="核心模块"><a href="#核心模块" class="headerlink" title="核心模块"></a>核心模块</h2><h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><p><code>node</code>中通过<code>require</code>引入模块的机制为将需要的模块对应的<code>js</code>文件引入后执行一遍，因此在自己写的依赖模块中尽量不要无故输出信息，否则会使控制台十分混乱。</p>
+<h3 id="fs"><a href="#fs" class="headerlink" title="fs"></a>fs</h3><p><code>fs</code>模块中的所有方法在指定路径时都必须为绝对路径或是完整的相对路径（即包含<code>../</code>、<code>./</code>、<code>/</code>的相对路径）。</p>
+<h4 id="fs-mkdir-mkdirSync"><a href="#fs-mkdir-mkdirSync" class="headerlink" title="fs.mkdir/mkdirSync"></a>fs.mkdir/mkdirSync</h4><p>API<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fs.mkdir(path, callback)</div></pre></td></tr></table></figure></p>
+<p>创建文件夹操作，支持文件夹嵌套，例如<code>fs.mkdir(&#39;./a/b/c&#39;)</code>,回调函数中的参数为<code>Error</code>信息，只有发生错误的时候才会存在，创建成功则为<code>null</code>。</p>
+<p><code>mkdir</code>操作的路径如果有文件夹嵌套，则当上级路径不存在时，不能直接创建。例如当前文件夹下没有<code>a</code>文件夹，则<code>fs.mkdir(&#39;./a/b&#39;)</code>不能直接创建<code>a</code>和<code>a/b</code>文件夹。</p>
+<p>为了减少代码的重复量，可使用下面的函数来对<code>mkdir</code>操作进行封装。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">let path = require(&apos;path&apos;),</div><div class="line">    fs = require(&apos;fs&apos;);</div><div class="line">function mkdir(p,fn)&#123;</div><div class="line">    fs.exists(p, function (flag) &#123; // 判断当前路径下的文件夹是否已经存在</div><div class="line">        if(flag)&#123; // 如果当前文件夹已经存在则执行回调函数</div><div class="line">            return fn();</div><div class="line">        &#125;</div><div class="line">        // 如果当前文件夹不存在，则将当前文件夹的上级目录作为新的参数p，创建当前文件夹的操作放入回调函数，递归调用mkdir函数</div><div class="line">        mkdir(path.dirname(p), function () &#123;</div><div class="line">            fs.mkdir(p,fn);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里用到了<code>path</code>模块的<code>dirname</code>方法，这个方法的作用是获取一个路径的上级路径。</p>
+<h4 id="fs-readFile-readFileSync"><a href="#fs-readFile-readFileSync" class="headerlink" title="fs.readFile/readFileSync"></a>fs.readFile/readFileSync</h4><p>读取文件操作，在使用同步方法<code>readFileSync</code>时函数直接返回读到的数据，如果发生错误则返回错误的信息。</p>
+<p>但是异步方法<code>readFile</code>在<code>callback</code>中的参数却是<code>error</code>和<code>data</code>，即不管是否成功第一个参数都是<code>error</code>，第二个参数才是读到的数据。</p>
+<p>在<code>node</code>中应尽量用<code>stream</code>来代替文件的直接读写操作。</p>
+<h2 id="请求与响应"><a href="#请求与响应" class="headerlink" title="请求与响应"></a>请求与响应</h2><h3 id="跨域请求"><a href="#跨域请求" class="headerlink" title="跨域请求"></a>跨域请求</h3><h4 id="cors"><a href="#cors" class="headerlink" title="cors"></a>cors</h4><p>如果需要采用<code>cors</code>来支持跨域请求，则需要对请求头进行如下设置（完整版）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">res.writeHead(200, &#123;</div><div class="line">    &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,</div><div class="line">    &quot;Access-Control-Allow-Methods&quot;: &quot;GET, POST, PUT, DELETE, OPTIONS&quot;,</div><div class="line">    &quot;Access-Control-Allow-Headers&quot;: &quot;Content-Type, accept&quot;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>另外，跨域时尽量对请求方法和请求路径都进行验证（RESTful），因为某些客户端框架（ionic）在发送跨域请求时，会先发送一个<code>option</code>方法的请求来尝试跨域请求是否成功，在成功之后才会发送原本的请求。</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>一般在<code>node</code>中设置<code>cookies</code>都会使用基于<code>express</code>的第三方包<code>cookie-parser</code>。不使用第三方包的原生写法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">res.setHeader(&quot;Set-Cookie&quot;, [...cookies])</div></pre></td></tr></table></figure></p>
+<p>其中<code>cookies</code>的格式为<code>key=value; option</code>，注意<code>;</code>后的空格。</p>
+<p><code>option</code>的参数中<code>max-age=time</code>表示<code>cookie</code>的过期时间，其中<code>time</code>的为<code>number</code>，单位是秒。</p>
+<p>获取客户端传递的<code>cookies</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.headers.cookie</div></pre></td></tr></table></figure></p>
+<p>如果使用<code>express</code>和<code>cookie-parser</code>，则关于<code>cookie</code>的方法都会被集成在<code>request</code>和<code>response</code>上，设置<code>cookie</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">res.cookie(key, value, option)</div></pre></td></tr></table></figure></p>
+<p>注意这里的<code>option</code>中的<code>max-age</code>单位变为了毫秒，其他则没有变化。</p>
+<p>获取客户端传递的<code>cookies</code>的方法为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">req.cookies</div></pre></td></tr></table></figure></p>
+<p>获取的<code>cookies</code>为对象形式。</p>
+<p>IDE没有提示功能或者提示功能不全的朋友请注意上文中的<code>cookie</code>和<code>cookies</code>并背诵熟练 :)。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/18/Angular依赖注入原理/" rel="next" title="Angular 依赖注入原理">
+                <i class="fa fa-chevron-left"></i> Angular 依赖注入原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心模块"><span class="nav-number">1.</span> <span class="nav-text">核心模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#require"><span class="nav-number">1.1.</span> <span class="nav-text">require</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fs"><span class="nav-number">1.2.</span> <span class="nav-text">fs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fs-mkdir-mkdirSync"><span class="nav-number">1.2.1.</span> <span class="nav-text">fs.mkdir/mkdirSync</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fs-readFile-readFileSync"><span class="nav-number">1.2.2.</span> <span class="nav-text">fs.readFile/readFileSync</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求与响应"><span class="nav-number">2.</span> <span class="nav-text">请求与响应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#跨域请求"><span class="nav-number">2.1.</span> <span class="nav-text">跨域请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cors"><span class="nav-number">2.1.1.</span> <span class="nav-text">cors</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">3.</span> <span class="nav-text">cookie</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

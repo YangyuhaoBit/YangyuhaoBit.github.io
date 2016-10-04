@@ -1,0 +1,601 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言依赖注入的机制是Angular管理代码依赖关系的重要手段。
+一般来说，一个函数要想获取它的依赖，有三种方式：
+
+在函数内部通过new来创建依赖；
+通过全局变量查找依赖；
+在依赖被需要时导入；
+
+很显然，前两种方式都有一定程度的不足之处，他们都需要将依赖提前编码，使得对依赖进行动态修改变得相当麻烦。而第三种方式无疑是我们理想的方式。
+Angular中实现依赖注入的方法很简单，就是在每个模块上使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 依赖注入原理">
+<meta property="og:url" content="http://yoursite.com/2016/09/18/Angular依赖注入原理/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta property="og:description" content="引言依赖注入的机制是Angular管理代码依赖关系的重要手段。
+一般来说，一个函数要想获取它的依赖，有三种方式：
+
+在函数内部通过new来创建依赖；
+通过全局变量查找依赖；
+在依赖被需要时导入；
+
+很显然，前两种方式都有一定程度的不足之处，他们都需要将依赖提前编码，使得对依赖进行动态修改变得相当麻烦。而第三种方式无疑是我们理想的方式。
+Angular中实现依赖注入的方法很简单，就是在每个模块上使用">
+<meta property="og:updated_time" content="2016-10-02T02:38:53.777Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 依赖注入原理">
+<meta name="twitter:description" content="引言依赖注入的机制是Angular管理代码依赖关系的重要手段。
+一般来说，一个函数要想获取它的依赖，有三种方式：
+
+在函数内部通过new来创建依赖；
+通过全局变量查找依赖；
+在依赖被需要时导入；
+
+很显然，前两种方式都有一定程度的不足之处，他们都需要将依赖提前编码，使得对依赖进行动态修改变得相当麻烦。而第三种方式无疑是我们理想的方式。
+Angular中实现依赖注入的方法很简单，就是在每个模块上使用">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/18/Angular依赖注入原理/"/>
+
+  <title> Angular 依赖注入原理 | 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Angular 依赖注入原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-18T19:26:39+08:00" content="2016-09-18">
+              2016-09-18
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>依赖注入的机制是Angular管理代码依赖关系的重要手段。</p>
+<p>一般来说，一个函数要想获取它的依赖，有三种方式：</p>
+<ol>
+<li>在函数内部通过new来创建依赖；</li>
+<li>通过全局变量查找依赖；</li>
+<li>在依赖被需要时导入；</li>
+</ol>
+<p>很显然，前两种方式都有一定程度的不足之处，他们都需要将依赖提前编码，使得对依赖进行动态修改变得相当麻烦。而第三种方式无疑是我们理想的方式。</p>
+<p>Angular中实现依赖注入的方法很简单，就是在每个模块上使用一个数组<code>providers</code>将创建服务的构造函数保存，同时在<code>injector</code>上用一个数组<code>providerCache</code>将实例化后的服务缓存，调用服务时先检查是否有缓存，以此来保证服务为单例模式。</p>
+<h2 id="Angular中的依赖注入"><a href="#Angular中的依赖注入" class="headerlink" title="Angular中的依赖注入"></a>Angular中的依赖注入</h2><p>Angular中使用注射器来实现依赖注入，在Angular中，直接通过<code>angular.injector()</code>便可获得一个<code>injector</code>实例，将其打印可以发现<code>injector</code>带有5个方法：</p>
+<ul>
+<li>annotate</li>
+<li>get</li>
+<li>has</li>
+<li>instantiate</li>
+<li>invoke</li>
+</ul>
+<p>下面我们来一一讲解这些方法的作用：</p>
+<ol>
+<li><code>annotate</code>的参数为一个函数，<code>annotate</code>不会运行这个函数，只会将这个函数中的参数名集成为一个数组并返回。这个方法主要用来对函数进行预解析，获取函数内部需要的服务名称。</li>
+<li><code>get</code>的参数为一个服务名，返回一个服务实例。</li>
+<li><code>has</code>查看某个服务的构造函数是否存在。</li>
+<li><code>invoke</code>注入服务，它是对上面三个函数的封装。</li>
+<li><code>instantiate</code>将一个服务实例化。主要在<code>factory</code>定义服务时使用。</li>
+</ol>
+<p>为了更好的理解这些方法，我们一边模拟这些方法一边讲解其原理。</p>
+<h2 id="provider"><a href="#provider" class="headerlink" title="provider"></a>provider</h2><p>我们先模拟一个provider来创建服务，服务和<code>injector</code>都是基于模块的，因此需要一个模块构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function Module()&#123;&#125;</div><div class="line"></div><div class="line">Module.providers = []; // 存储服务构造函数</div><div class="line">Module.providerCache = []; // 缓存服务实例</div><div class="line"></div><div class="line">Module.provider = function (serviceName, service) &#123;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Module.injector = function () &#123;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在此基础上模拟provider<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Module.prototype.provider = function (serviceName, constructor) &#123;</div><div class="line">    this.providers[serviceName] = constructor; // 每次创建服务都将构造函数保存在providers中</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="annotate"><a href="#annotate" class="headerlink" title="annotate"></a>annotate</h2><p>其原理为将传入的函数转换为字符串后通过正则来解析，为简便，本文只考虑通过<code>function</code>定义的匿名函数的情况，模拟代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">injector.annotate = (fn)=&gt; &#123;</div><div class="line">    return  fn.toString().match(/function\s+\((.*)\)/)[1].replace(/\s+/g,&apos;&apos;).split(&apos;,&apos;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="has"><a href="#has" class="headerlink" title="has"></a>has</h2><p><code>has</code>用来查询服务的构造函数是否存在，再服务实例化时需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">injector.has = (serviceName)=&gt; &#123;</div><div class="line">    return this.providers[serviceName] ? true : false</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="get"><a href="#get" class="headerlink" title="get"></a>get</h2><p><code>get</code>会先遍历注射器的<code>providerCache</code>，如果没有这一服务的实例化则尝试将其创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">injector.get = (serviceName)=&gt; &#123;</div><div class="line">    let service = this.providerCache[serviceName];</div><div class="line">    if (!service) &#123; //如果没有这个服务，尝试创建这个服务</div><div class="line">        if (!injector.has(serviceName)) &#123;</div><div class="line">            throw new Error(&quot;No such service &quot; + serviceName);</div><div class="line">        &#125;</div><div class="line">        let instant = new this.providers[serviceName];</div><div class="line">        service = instant.$get();</div><div class="line">        this.providerCache[serviceName] = service;</div><div class="line">    &#125;</div><div class="line">    return service;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="invoke"><a href="#invoke" class="headerlink" title="invoke"></a>invoke</h2><p><code>invoke</code>先调用<code>annotate</code>来检测需要的服务的名称，然后用<code>get</code>方法一次获取服务，最后执行函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">injector.invoke = function (fn, thisObj) &#123;</div><div class="line">    let args = injector.annotate(fn), // 获取需要的服务名称</div><div class="line">        arr = []; // 用来存放所有的服务实例</div><div class="line">    if (args[0] != &apos;&apos;) &#123;</div><div class="line">        for (var i = 0; i &lt; args.length; i++) &#123;</div><div class="line">            arr.push(this.get(args[i]));</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    fn.apply(thisObj, arr);// 调用这个函数，将函数中this改为invoke传入的参数thisObj，并把服务实例依次传入</div><div class="line">    return thisObj;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>Angular中需要依赖注入的函数都会自动执行invoke，这就是Angular依赖注入的原理。</p>
+<p>最后我们验证一下这些模拟的代码是否实现了期望的功能。引入以上代码后写入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Module.provider(&quot;myService&quot;, function () &#123;</div><div class="line">    this.$get = function () &#123;</div><div class="line">        console.log(&quot;Create service&quot;); // 不管注入几次，服务只会实例化一次，因此&quot;Create service&quot;只会输出一次</div><div class="line">        return &#123;</div><div class="line">            name: &quot;yyh&quot;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">let myModule = new Module();</div><div class="line"></div><div class="line">Module.injector().invoke(function (myService) &#123;</div><div class="line">    console.log(myService.name); // 输出&quot;yyh&quot;</div><div class="line">    myService.address = &quot;北京&quot;;</div><div class="line">&#125;, myModule);</div><div class="line"></div><div class="line">Module.injector().invoke(function (myService) &#123;</div><div class="line">    console.log(myService.address); // 输出&quot;北京&quot;</div><div class="line">&#125;,myModule);</div></pre></td></tr></table></figure></p>
+<p>输出结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Create service</div><div class="line">yyh</div><div class="line">北京</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/15/Angular中的自定义服务/" rel="next" title="Angular 自定义服务">
+                <i class="fa fa-chevron-left"></i> Angular 自定义服务
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/25/node-中的一些坑/" rel="prev" title="node 中的一些坑">
+                node 中的一些坑 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Angular中的依赖注入"><span class="nav-number">2.</span> <span class="nav-text">Angular中的依赖注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#provider"><span class="nav-number">3.</span> <span class="nav-text">provider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#annotate"><span class="nav-number">4.</span> <span class="nav-text">annotate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#has"><span class="nav-number">5.</span> <span class="nav-text">has</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get"><span class="nav-number">6.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invoke"><span class="nav-number">7.</span> <span class="nav-text">invoke</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
