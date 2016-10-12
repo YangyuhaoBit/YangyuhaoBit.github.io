@@ -89,7 +89,10 @@
 typeof
 instanceof
 constructor
-Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof a);">
+Object.prototype.toString
+
+4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。
+typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript中检测数据类型的方法">
 <meta property="og:url" content="http://yoursite.com/2016/09/05/JavaScript中检测数据类型的方法/index.html">
@@ -99,8 +102,11 @@ Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中�
 typeof
 instanceof
 constructor
-Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof a);">
-<meta property="og:updated_time" content="2016-10-04T11:55:38.278Z">
+Object.prototype.toString
+
+4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。
+typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof">
+<meta property="og:updated_time" content="2016-10-12T11:08:25.617Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript中检测数据类型的方法">
 <meta name="twitter:description" content="引言检测数据类型的方法不外乎4种，即
@@ -108,7 +114,10 @@ Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中�
 typeof
 instanceof
 constructor
-Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof a);">
+Object.prototype.toString
+
+4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。
+typeoftypeof是JS提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：12let a = &amp;apos;a&amp;apos;;console.log(typeof">
 
 
 
@@ -286,9 +295,10 @@ Object.prototype.toString4种方法各有优缺点，本文将分别介绍4中�
 <li><code>typeof</code></li>
 <li><code>instanceof</code></li>
 <li><code>constructor</code></li>
-<li><code>Object.prototype.toString</code><br>4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><code>typeof</code>是<code>JS</code>提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let a = &apos;a&apos;;</div><div class="line">console.log(typeof a);// string</div></pre></td></tr></table></figure>
-</li>
+<li><code>Object.prototype.toString</code></li>
 </ol>
+<p>4种方法各有优缺点，本文将分别介绍4中方法的用法即各自适用的场景。</p>
+<h2 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h2><p><code>typeof</code>是<code>JS</code>提供的检测数据类型的原生方法，返回数据类型的全小写。用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let a = &apos;a&apos;;</div><div class="line">console.log(typeof a);// string</div></pre></td></tr></table></figure></p>
 <p>它对基本数据类型的检测还是比较靠谱的，但是对于引用数据类型，除了<code>function</code>它的返回值基本都是<code>object</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">console.log(typeof &apos;1&apos;); // string</div><div class="line">console.log(typeof 1); // number</div><div class="line">console.log(typeof true); // boolean</div><div class="line">console.log(typeof undefined); // undefined</div><div class="line">console.log(typeof null); // object</div><div class="line">console.log(typeof &#123;&#125;); // object</div><div class="line">console.log(typeof new Date()); // object</div><div class="line">console.log(typeof new Function()); // function</div></pre></td></tr></table></figure></p>
 <p>值得注意的是，<code>typeof null</code>返回的是<code>object</code>。</p>
 <p>由于<code>typeof</code>这一特性，一般我们只在检测函数或基本数据类型时使用<code>typeof</code>。</p>
