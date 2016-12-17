@@ -1,0 +1,591 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="引言Node.js出现后，爬虫便不再是后台语言如PHP，Python的专利了，尽管在处理大量数据时的表现仍然不如后台语言，但是Node.js异步编程的特性可以让我们在最少的cpu开销下轻松完成高并发的爬取。另外由于现在许多网站都有了反爬虫手段，对付这些手段最合适的当然是可以在浏览器中直接运行的JS，这也使得基于Node.js的爬虫技术越来越受重视。
+今天就来讲一讲基于Node.js的爬虫入门，以爬">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Node.js的爬虫入门">
+<meta property="og:url" content="http://yoursite.com/2016/12/17/基于Node-js的爬虫入门/index.html">
+<meta property="og:site_name" content="杨宇豪的个人博客">
+<meta property="og:description" content="引言Node.js出现后，爬虫便不再是后台语言如PHP，Python的专利了，尽管在处理大量数据时的表现仍然不如后台语言，但是Node.js异步编程的特性可以让我们在最少的cpu开销下轻松完成高并发的爬取。另外由于现在许多网站都有了反爬虫手段，对付这些手段最合适的当然是可以在浏览器中直接运行的JS，这也使得基于Node.js的爬虫技术越来越受重视。
+今天就来讲一讲基于Node.js的爬虫入门，以爬">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/movie.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/url.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/structure.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/ajax.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/data1.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/title.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/data2.png">
+<meta property="og:image" content="http://yoursite.com/images/node-spider/data3.png">
+<meta property="og:updated_time" content="2016-12-17T08:30:33.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Node.js的爬虫入门">
+<meta name="twitter:description" content="引言Node.js出现后，爬虫便不再是后台语言如PHP，Python的专利了，尽管在处理大量数据时的表现仍然不如后台语言，但是Node.js异步编程的特性可以让我们在最少的cpu开销下轻松完成高并发的爬取。另外由于现在许多网站都有了反爬虫手段，对付这些手段最合适的当然是可以在浏览器中直接运行的JS，这也使得基于Node.js的爬虫技术越来越受重视。
+今天就来讲一讲基于Node.js的爬虫入门，以爬">
+<meta name="twitter:image" content="http://yoursite.com/images/node-spider/movie.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/17/基于Node-js的爬虫入门/"/>
+
+  <title> 基于Node.js的爬虫入门 | 杨宇豪的个人博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">杨宇豪的个人博客</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于Node.js的爬虫入门
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-17T14:36:36+08:00" content="2016-12-17">
+              2016-12-17
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Node.js出现后，爬虫便不再是后台语言如PHP，Python的专利了，尽管在处理大量数据时的表现仍然不如后台语言，但是Node.js异步编程的特性可以让我们在最少的cpu开销下轻松完成高并发的爬取。另外由于现在许多网站都有了反爬虫手段，对付这些手段最合适的当然是可以在浏览器中直接运行的JS，这也使得基于Node.js的爬虫技术越来越受重视。</p>
+<p>今天就来讲一讲基于Node.js的爬虫入门，以爬虫程序中万年躺枪的豆瓣电影网为例（豆瓣的网站不需要登陆也可以查看大部分内容，不用设置cookie，且页面结构相对简单，反爬虫手段不多，很适合拿来入门），爬取某部电影的所有影评，简要介绍爬虫的一些基本知识。</p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>因为是入门，本文使用原生的语法，所使用的第三方库只有两个：mongoose和cheerio。</p>
+<p>cheerio是爬虫中必备的神器，mongoose则是一个关于mongoDB数据库操作的库，主要是方便将爬到的数据存入数据库中，本文不做过多讲解。</p>
+<h3 id="cheerio"><a href="#cheerio" class="headerlink" title="cheerio"></a>cheerio</h3><p>先安装cheerio<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i cheerio -S</div></pre></td></tr></table></figure></p>
+<p>cheerio的作用主要使用jQuery的语法来解析得到html文档，主要用法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const cheerio = require(&apos;cheerio&apos;);</div><div class="line">let $ = cheerio.load(&quot;&lt;p&gt;Hello world!&lt;/p&gt;&quot;);</div><div class="line">$(&apos;p&apos;).text(); // Hello world!</div></pre></td></tr></table></figure></p>
+<p>它基本保留了jQuery的核心部分，包括jQuery的一些工具。</p>
+<p>关于cheerio的更详细的内容请参考<a href="https://github.com/cheeriojs/cheerio" target="_blank" rel="external">github</a>。</p>
+<h2 id="分析网站"><a href="#分析网站" class="headerlink" title="分析网站"></a>分析网站</h2><p>写爬虫时最重要的工作就是分析网站，我们先打开<a href="https://movie.douban.com" target="_blank" rel="external">豆瓣电影网</a>。</p>
+<p>本文以经典电影《肖申克的救赎》为例，爬取全部4210篇影评并保存到mongoDB数据库（部分被折叠影评不获取，实际大概3800篇）。</p>
+<p><img src="/images/node-spider/movie.png" alt="movie"></p>
+<p>F12打开chrome开发者工具，查看元素，发现整个页面的内容基本都是从这个接口返回的。</p>
+<p><img src="/images/node-spider/url.png" alt="url"></p>
+<p>接口的路径为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/subject/1292052/reviews?start=0</div></pre></td></tr></table></figure></p>
+<p>url中的start参数显然是用来控制当前显示的是第几页的参数，每页返回的影评数目为20个。</p>
+<p>分析网页的结构</p>
+<p><img src="/images/node-spider/structure.png" alt="structure"></p>
+<p>可以从里面得到文章的id，作者，标题和内容。</p>
+<p>继续分析发现当前这个页面中的影评内容只有一些摘要，点击查看全文时发现网页发起了一个Ajax请求。</p>
+<p><img src="/images/node-spider/ajax.png" alt="ajax"></p>
+<p>可以看到，这个接口以JSON的格式返回了文章的内容，点赞人数等，不过文章的内容是html格式的，我们在存储时需要进行一些处理。</p>
+<p>接口的路径为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/j/review/1000369/full</div></pre></td></tr></table></figure></p>
+<p><code>1000369</code>就是文章的id。</p>
+<p>这样看来，我们的爬虫程序就需要分两次爬取了，第一次先获得所有文章的id及作者，标题，第二次则根据文章的id来获取文章的内容。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>爬虫代码如下，运行的node版本为6.9.1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">// 依赖的模块</div><div class="line">const https = require(&apos;https&apos;),</div><div class="line">    mongoose = require(&apos;mongoose&apos;),</div><div class="line">    cheerio = require(&apos;cheerio&apos;);</div><div class="line"></div><div class="line">mongoose.connect(&apos;mongodb://localhost/article&apos;); // 链接数据库</div><div class="line"></div><div class="line">const schema = new mongoose.Schema(&#123; // 创建schema</div><div class="line">    uuid: Number,</div><div class="line">    title: String,</div><div class="line">    author: String,</div><div class="line">    content: String</div><div class="line">&#125;);</div><div class="line"></div><div class="line">let model = mongoose.model(&apos;article&apos;, schema);</div><div class="line"></div><div class="line">let host = &apos;movie.douban.com&apos;;</div><div class="line"></div><div class="line">let agent = new https.Agent(&#123; // 创建https代理</div><div class="line">    host,</div><div class="line">    rejectUnauthorized: false</div><div class="line">&#125;);</div><div class="line"></div><div class="line">const getList = (start) =&gt; &#123; // 根据start的值发起请求</div><div class="line">    let path = `/subject/1292052/reviews?start=$&#123;start&#125;`;</div><div class="line">    let req = https.request(&#123;</div><div class="line">        host,</div><div class="line">        path,</div><div class="line">        agent,</div><div class="line">        port: 443,</div><div class="line">        method: &apos;GET&apos;</div><div class="line">    &#125;, res =&gt; &#123;</div><div class="line">        let data = &apos;&apos;;</div><div class="line"></div><div class="line">        res.on(&apos;data&apos;, (chunk) =&gt;&#123;</div><div class="line">            data += chunk;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        res.on(&apos;end&apos;, () =&gt;&#123;</div><div class="line">            handleData(data);</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    const handleData = data =&gt;&#123; // 得到网页html后根据网页进行的程序</div><div class="line">        let $ = cheerio.load(data);</div><div class="line"></div><div class="line">        $(&apos;div.review-item&apos;).each((index, item) =&gt;&#123;</div><div class="line">            let _item = $(item),</div><div class="line">                uuid = _item.attr(&apos;id&apos;),</div><div class="line">                title = _item.find(&apos;a.title-link&apos;).text(),</div><div class="line">                author = _item.find(&apos;.author span&apos;).text();</div><div class="line"></div><div class="line">            model.create(&#123;</div><div class="line">                uuid,</div><div class="line">                title,</div><div class="line">                author,</div><div class="line">                content: &apos;&apos;</div><div class="line">            &#125;)</div><div class="line">        &#125;);</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    req.on(&apos;error&apos;, (err) =&gt;&#123;</div><div class="line">        console.log(err);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    req.end();</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// 运行</div><div class="line">for(let i=0;i &lt; 196; i++)&#123;</div><div class="line">    getList(i*20);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>详细过程在代码中都已经注释了，运行后的数据库如下</p>
+<p><img src="/images/node-spider/data1.png" alt="data1"></p>
+<h2 id="解决title问题"><a href="#解决title问题" class="headerlink" title="解决title问题"></a>解决title问题</h2><p>数据库中马上多了3000多条数据，真是亦可赛艇。但是我们发现，其中有一些数据数据的title字段不全（以”…”结尾），我们回去看网页，发现豆瓣渲染的网页是进行过截字处理的。</p>
+<p><img src="/images/node-spider/title.png" alt="title"></p>
+<p>没办法，只能乖乖的进入详情页面获取文章标题了。</p>
+<p>将刚刚获得的数据全部取出来，通过正则<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/\.&#123;3&#125;$/</div></pre></td></tr></table></figure></p>
+<p>来判断是否为不全的title，并进行请求，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line">model.find(&#123;&#125;, (err, data) =&gt; &#123; // 从数据库获取所有数据</div><div class="line">    data.forEach(item =&gt; &#123;</div><div class="line">        if (item.title.length &gt; 20 &amp;&amp; /\.&#123;3&#125;$/.test(item.title)) &#123; // 判断是否为不全的数据</div><div class="line">            getTitle(item.uuid, title =&gt;&#123;</div><div class="line">                console.log(title, item.uuid);</div><div class="line">                model.update(&#123;_id: item._id&#125;, &#123;$set: &#123;title&#125;&#125;, (err, info) =&gt;&#123;</div><div class="line">                    if(err)&#123;</div><div class="line">                        console.log(err);</div><div class="line">                    &#125; else &#123;</div><div class="line">                        console.log(info);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">            &#125;);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">let host = &apos;movie.douban.com&apos;;</div><div class="line"></div><div class="line">let agent = new https.Agent(&#123;</div><div class="line">    host,</div><div class="line">    rejectUnauthorized: false</div><div class="line">&#125;);</div><div class="line"></div><div class="line">const getTitle = (uuid, callback) =&gt; &#123; // 获取title</div><div class="line">    let path = `/review/$&#123;uuid&#125;/`;</div><div class="line"></div><div class="line">    let req = https.request(&#123;</div><div class="line">        host,</div><div class="line">        path,</div><div class="line">        agent,</div><div class="line">        port: 443,</div><div class="line">        method: &apos;GET&apos;</div><div class="line">    &#125;, res =&gt; &#123;</div><div class="line">        let data = &apos;&apos;;</div><div class="line"></div><div class="line">        res.on(&apos;data&apos;, chunk =&gt; &#123;</div><div class="line">            data += chunk;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">        res.on(&apos;end&apos;, () =&gt; &#123;</div><div class="line">            let $ = cheerio.load(data);</div><div class="line">            callback($(&apos;#content span[property=&quot;v:summary&quot;]&apos;).text());</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    req.end();</div><div class="line"></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>运行后数据库中就没有title字段不全的情况了。</p>
+<p><img src="/images/node-spider/data2.png" alt="data2"></p>
+<h2 id="获取文章全部内容"><a href="#获取文章全部内容" class="headerlink" title="获取文章全部内容"></a>获取文章全部内容</h2><p>这里因为时间和存储空间的关系，就只获取前一百篇文章的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">model.find(&#123;&#125;, (err, data) =&gt; &#123; // 从数据库获取所有数据</div><div class="line">    data.forEach((item, index) =&gt; &#123;</div><div class="line">        if (index &gt; 100) &#123; // 只获取前100篇的内容</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        if (item.content == &apos;&apos;) &#123;</div><div class="line">            getContent(item.uuid, content =&gt; &#123;</div><div class="line">                model.update(&#123;_id: item._id&#125;, &#123;$set: &#123;content&#125;&#125;, (err, info) =&gt;&#123;</div><div class="line">                    if(err)&#123;</div><div class="line">                        console.log(err);</div><div class="line">                    &#125; else &#123;</div><div class="line">                        console.log(info);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">const getContent = (id, callback) =&gt; &#123; // 获取文章内容</div><div class="line">    let path = `/j/review/$&#123;id&#125;/full`;</div><div class="line"></div><div class="line">    let req = https.request(&#123;</div><div class="line">        host,</div><div class="line">        path,</div><div class="line">        agent,</div><div class="line">        port: 443,</div><div class="line">        method: &apos;GET&apos;</div><div class="line">    &#125;, res =&gt; &#123;</div><div class="line">        let data = &apos;&apos;;</div><div class="line">        res.on(&apos;data&apos;, chunk =&gt; &#123;</div><div class="line">            data += chunk;</div><div class="line">        &#125;);</div><div class="line">        res.on(&apos;end&apos;, () =&gt; &#123;</div><div class="line">            data = JSON.parse(data);</div><div class="line">            callback(data.html.replace(/&amp;nbsp;/g, &apos; &apos;).replace(/&lt;br&gt;/g, &apos;\r\n&apos;));</div><div class="line">        &#125;)</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    req.end();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>运行后的数据库如图</p>
+<p><img src="/images/node-spider/data3.png" alt="data3"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本文只是对爬虫程序的入门级别，实际上，爬虫运行时还需要考虑很多问题，如对抗反爬虫技术，设置cookies，程序运行效率等等。对爬虫感兴趣的同学可以深入了解http及https请求、网络安全、算法数据结构方面的知识。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/10/浅析Redux原理/" rel="next" title="浅析Redux源码">
+                <i class="fa fa-chevron-left"></i> 浅析Redux源码
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="杨宇豪" />
+          <p class="site-author-name" itemprop="name">杨宇豪</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-number">2.</span> <span class="nav-text">准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#cheerio"><span class="nav-number">2.1.</span> <span class="nav-text">cheerio</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析网站"><span class="nav-number">3.</span> <span class="nav-text">分析网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始"><span class="nav-number">4.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决title问题"><span class="nav-number">5.</span> <span class="nav-text">解决title问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取文章全部内容"><span class="nav-number">6.</span> <span class="nav-text">获取文章全部内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">7.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨宇豪</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
